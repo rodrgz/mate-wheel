@@ -1,0 +1,139 @@
+---
+import { chartIds } from '../lib/ui/chartContract';
+import type { Locale } from '../lib/i18n/siteCopy';
+
+interface Props {
+  title: string;
+  subtitle: string;
+  locale: Locale;
+  languageSwitcherLabel: string;
+  themeToggleLabel: string;
+}
+
+const {
+  title,
+  subtitle,
+  locale,
+  languageSwitcherLabel,
+  themeToggleLabel,
+} = Astro.props;
+---
+
+<header class="app-header">
+  <div class="container header-inner">
+    <div class="header-titles">
+      <h1>{title}</h1>
+      <p class="header-subtitle">{subtitle}</p>
+    </div>
+    <div class="header-actions">
+      <nav class="lang-switcher" aria-label={languageSwitcherLabel}>
+        <a href="/mate-wheel/" class={locale === 'pt' ? 'active' : ''} aria-current={locale === 'pt' ? 'page' : undefined}>PT</a>
+        <a href="/mate-wheel/en/" class={locale === 'en' ? 'active' : ''} aria-current={locale === 'en' ? 'page' : undefined}>EN</a>
+        <a href="/mate-wheel/es/" class={locale === 'es' ? 'active' : ''} aria-current={locale === 'es' ? 'page' : undefined}>ES</a>
+      </nav>
+      <button id={chartIds.themeToggle} class="theme-toggle" type="button" aria-label={themeToggleLabel} aria-pressed="false">
+        <svg class="sun-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <svg class="moon-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header-titles h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--heading);
+    line-height: 1.1;
+  }
+
+  .header-subtitle {
+    margin: 0.15rem 0 0;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .lang-switcher {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .lang-switcher a {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #64748b;
+    transition: background-color 0.2s, color 0.2s;
+  }
+
+  .lang-switcher a:hover {
+    background: var(--meta-bg);
+    color: var(--heading);
+  }
+
+  .lang-switcher a.active {
+    background: var(--primary);
+    color: white;
+  }
+
+  .theme-toggle {
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    text-decoration: none;
+  }
+
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--header-border);
+    background: var(--header-bg);
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .theme-toggle:hover {
+    background: var(--meta-bg);
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  .theme-toggle svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lang-switcher a,
+    .theme-toggle {
+      transition: none;
+    }
+  }
+
+  .sun-icon {
+    display: none;
+  }
+
+  .moon-icon {
+    display: block;
+  }
+
+  :root.dark .sun-icon {
+    display: block;
+  }
+
+  :root.dark .moon-icon {
+    display: none;
+  }
+</style>

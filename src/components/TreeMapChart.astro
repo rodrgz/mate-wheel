@@ -1,0 +1,9 @@
+---
+import { chartIds } from '../lib/ui/chartContract';
+
+interface Props {
+  data: any;
+}
+const { data } = Astro.props;
+---
+<template id={chartIds.chartTreeData}>{JSON.stringify(data)}</template>

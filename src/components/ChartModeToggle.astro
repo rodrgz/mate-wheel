@@ -1,0 +1,180 @@
+---
+import { chartIds } from '../lib/ui/chartContract';
+
+interface Props {
+  toggleChartLabel: string;
+  resetChartRootLabel: string;
+  treeZoomHint: string;
+}
+
+const { toggleChartLabel, resetChartRootLabel, treeZoomHint } = Astro.props;
+---
+
+<div class="chart-controls">
+  <div class="chart-toggle-row">
+    <button id={chartIds.chartToggle} class="chart-toggle" type="button" aria-label={toggleChartLabel} aria-pressed="false" title={toggleChartLabel}>
+      <div id={chartIds.iconToTree}>
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"/><path d="m16 6-4 4-4-4"/><rect width="8" height="6" x="2" y="16" rx="1"/><rect width="8" height="6" x="14" y="16" rx="1"/></svg>
+      </div>
+      <div id={chartIds.iconToWheel} hidden>
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/><path d="m4.93 4.93 14.14 14.14"/><path d="m4.93 19.07 14.14-14.14"/></svg>
+      </div>
+    </button>
+    <div class="toggle-hint">
+      <span>{toggleChartLabel}</span>
+    </div>
+  </div>
+  <div class="chart-button-stack">
+    <button
+      id={chartIds.chartResetRoot}
+      class="chart-toggle chart-reset-root"
+      type="button"
+      aria-label={resetChartRootLabel}
+      title={resetChartRootLabel}
+      hidden
+    >
+      <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h10a4 4 0 1 1 0 8H9"/><path d="m3 10 4-4"/><path d="m3 10 4 4"/></svg>
+    </button>
+  </div>
+</div>
+<div id={chartIds.treeZoomIndicator} class="zoom-indicator">
+  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+  <span>{treeZoomHint}</span>
+</div>
+
+<style>
+  .chart-controls {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .chart-toggle-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .chart-button-stack {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .chart-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--header-border);
+    background: var(--header-bg);
+    color: var(--text);
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+  }
+
+  .chart-toggle.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+
+  .chart-toggle:hover {
+    background: var(--meta-bg);
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  .chart-toggle svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .chart-reset-root[hidden] {
+    display: none !important;
+  }
+
+  .wheel-section .chart-toggle,
+  .wheel-section .toggle-hint {
+    background: var(--panel-bg);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 6px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .toggle-hint {
+    font-size: 0.75rem;
+    font-weight: 500;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.3s, transform 0.3s;
+    white-space: nowrap;
+    margin-top: 0;
+  }
+
+  .chart-controls.hint-peek .toggle-hint,
+  .chart-toggle-row:hover .toggle-hint,
+  .chart-toggle:focus-visible + .toggle-hint {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .zoom-indicator {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: min(90vw, 28rem);
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .zoom-indicator.visible {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chart-toggle,
+    .toggle-hint,
+    .zoom-indicator {
+      transition: none;
+    }
+
+    .toggle-hint {
+      transform: none;
+    }
+  }
+
+  :root.dark .wheel-section .chart-toggle,
+  :root.dark .wheel-section .toggle-hint,
+  :root.dark .zoom-indicator {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+</style>

@@ -1,0 +1,92 @@
+---
+interface Props {
+  footer: string;
+  codeLicensedUnder: string;
+  contentTaxonomyLicensedUnder: string;
+  commercialUseNotice: string;
+  contactLabel: string;
+  contactEmail: string;
+  contributorsLabel: string;
+  contributors: readonly string[];
+}
+
+const {
+  footer,
+  codeLicensedUnder,
+  contentTaxonomyLicensedUnder,
+  commercialUseNotice,
+  contactLabel,
+  contactEmail,
+  contributorsLabel,
+  contributors,
+} = Astro.props;
+---
+
+<footer class="app-footer">
+  <div class="container">
+    <p>{footer}</p>
+    <div class="footer-meta">
+      <p>
+        <span class="footer-label">{contactLabel}</span>{' '}
+        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+      </p>
+      <p>
+        <span class="footer-label">{contributorsLabel}</span>{' '}
+        {contributors.join(' · ')}
+      </p>
+    </div>
+    <div class="footer-license">
+      <p>
+        {codeLicensedUnder} MIT.
+        {contentTaxonomyLicensedUnder} <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC 4.0</a>.
+      </p>
+      <p>{commercialUseNotice}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .app-footer {
+    margin-top: 4rem;
+    padding: 4rem 1rem;
+    border-top: 1px solid var(--header-border);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+  }
+
+  .footer-license {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .footer-meta {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .footer-label {
+    color: var(--heading);
+    font-weight: 600;
+  }
+
+  .footer-meta a,
+  .footer-license a {
+    color: var(--primary);
+    text-decoration: underline;
+    font-weight: 500;
+  }
+
+  .footer-meta p,
+  .footer-license p {
+    margin: 0;
+    max-width: 600px;
+    line-height: 1.5;
+  }
+</style>

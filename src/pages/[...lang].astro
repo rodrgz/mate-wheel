@@ -1,0 +1,122 @@
+---
+import { render } from 'astro:content';
+import { loadNormalizedWheel, loadReferenceEntry, resolveLocale } from '../lib/content/mateWheel';
+import { panelCopy, siteCopy, siteMeta } from '../lib/i18n/siteCopy';
+import PageHeader from '../components/PageHeader.astro';
+import ChartModeToggle from '../components/ChartModeToggle.astro';
+import ProjectFooter from '../components/ProjectFooter.astro';
+import SunburstChart from '../components/SunburstChart.astro';
+import TreeMapChart from '../components/TreeMapChart.astro';
+import DescriptorPanel from '../components/DescriptorPanel.astro';
+import { chartIds } from '../lib/ui/chartContract';
+import '../styles/global.css';
+
+export async function getStaticPaths() {
+  return [
+    { params: { lang: undefined } }, // pt (default)
+    { params: { lang: 'en' } },
+    { params: { lang: 'es' } },
+  ];
+}
+
+const { lang } = Astro.params;
+const locale = resolveLocale(lang);
+
+const normalized = await loadNormalizedWheel(locale);
+const referenceEntry = await loadReferenceEntry(locale);
+const { Content } = await render(referenceEntry);
+const translations = siteCopy[locale];
+const panelTranslations = panelCopy[locale];
+const contentSecurityPolicy = import.meta.env.DEV
+  ? undefined
+  : "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self';";
+---
+
+<!DOCTYPE html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    {contentSecurityPolicy && (
+      <meta
+        http-equiv="Content-Security-Policy"
+        content={contentSecurityPolicy}
+      />
+    )}
+    <meta name="viewport" content="width=device-width" />
+    <title>{translations.title}</title>
+    <link rel="icon" type="image/svg+xml" href="/mate-wheel/favicon.svg" />
+    <script is:inline src="/mate-wheel/theme-init.js"></script>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">{translations.skipLinkLabel}</a>
+    <PageHeader
+      title={translations.title}
+      subtitle={translations.subtitle}
+      locale={locale}
+      languageSwitcherLabel={translations.languageSwitcherLabel}
+      themeToggleLabel={translations.themeToggleLabel}
+    />
+
+    <main id="main-content" class="container">
+      <div class="main-layout">
+        <section class="wheel-section">
+          <ChartModeToggle
+            toggleChartLabel={translations.toggleChart}
+            resetChartRootLabel={translations.resetChartRoot}
+            treeZoomHint={translations.treeZoomHint}
+          />
+          <div class="wheel-scroll-shell">
+            <div class="wheel-scroll-frame">
+              <div id={chartIds.chartSunburstWrapper}>
+                <SunburstChart data={normalized.sunburst} />
+              </div>
+              <div id={chartIds.chartTreemapWrapper} hidden></div>
+            </div>
+          </div>
+          <TreeMapChart data={normalized.sunburst} />
+        </section>
+        <section class="panel-section">
+          <DescriptorPanel
+            index={normalized.descriptorIndex}
+            translations={panelTranslations}
+          />
+        </section>
+      </div>
+
+      <section id="referencia" class="reference-section">
+        <div class="reference-content">
+          <Content />
+        </div>
+      </section>
+    </main>
+
+    <ProjectFooter
+      footer={translations.footer}
+      codeLicensedUnder={translations.codeLicensedUnder}
+      contentTaxonomyLicensedUnder={translations.contentTaxonomyLicensedUnder}
+      commercialUseNotice={translations.commercialUseNotice}
+      contactLabel={translations.contactLabel}
+      contactEmail={siteMeta.contactEmail}
+      contributorsLabel={translations.contributorsLabel}
+      contributors={siteMeta.contributors}
+    />
+
+    <script>
+      import {
+        setupChartControlsHintPeek,
+        setupChartToggle,
+        setupInternalLinkScroll,
+        setupScrollableReferenceTables,
+        setupThemeToggle,
+      } from '../lib/ui/pageBehavior';
+      import { setupDescriptorPanel } from '../lib/ui/descriptorPanel';
+
+      setupThemeToggle();
+      setupChartToggle();
+      setupChartControlsHintPeek();
+      setupDescriptorPanel();
+      setupScrollableReferenceTables();
+      setupInternalLinkScroll();
+    </script>
+  </body>
+</html>
