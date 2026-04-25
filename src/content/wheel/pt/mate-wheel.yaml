@@ -1,0 +1,705 @@
+meta:
+  version: 2
+compositionCategories:
+  - id: blend-erva-pura
+    label: Blend de Erva-Mate Pura
+    description: Apenas Ilex paraguariensis, combinando safras, origens ou processos diferentes.
+    howToRead: Buscar equilíbrio, consistência e integração entre lotes, sem exigir picos extremos em um único eixo.
+    risk: Confundir arredondamento e harmonia com falta de personalidade.
+  - id: mate-composto
+    label: Mate Composto
+    description: Erva-mate base misturada com botânicos, especiarias, flores ou aromatizantes.
+    howToRead: Avaliar a sinergia entre o botânico adjunto e a erva-base, registrando aroma líder, estrutura de fundo e retrogosto da erva nua.
+    risk: Deixar o aromatizante esconder defeitos da erva-base ou penalizar a amostra por fugir da tipicidade de erva pura.
+evaluationAxes:
+  - id: intensidade
+    label: Intensidade
+    kind: structure
+    description: Impacto global dos estímulos percebidos, sem confundir força com qualidade.
+    anchors: ["baixa", "média", "alta"]
+  - id: amargor
+    label: Amargor
+    kind: structure
+    description: Eixo estrutural da erva-mate, podendo ser verde, afiado, redondo ou profundo.
+    anchors: ["baixo", "médio", "alto"]
+  - id: adstringencia
+    label: Adstringência
+    kind: structure
+    description: Secância tátil e gengival, curta ou prolongada, positiva quando sustenta a bebida sem raspar.
+    anchors: ["fina", "marcante", "agressiva"]
+  - id: corpo
+    label: Corpo
+    kind: structure
+    description: Densidade, peso e preenchimento tátil da bebida ao longo da sessão.
+    anchors: ["leve", "médio", "cheio"]
+  - id: textura
+    label: Textura
+    kind: structure
+    description: Qualidade tátil da bebida, indo de sedosa e cremosa a arenosa ou áspera.
+    anchors: ["sedosa", "cremosa", "arenosa"]
+  - id: suculencia
+    label: Suculência
+    kind: structure
+    description: Capacidade da bebida de salivar e manter sensação caldosa ou aquosa em boca.
+    anchors: ["aquosa", "salivante", "caldosa"]
+  - id: persistencia
+    label: Persistência
+    kind: structure
+    description: Tempo de permanência das sensações e do retrogosto após o gole.
+    anchors: ["curta", "média", "longa"]
+  - id: final
+    label: Final
+    kind: structure
+    description: Direção e qualidade do encerramento sensorial no retrogosto.
+    anchors: ["limpo", "seco", "doce"]
+  - id: trigeminalidade
+    label: Trigeminalidade
+    kind: trigeminal
+    description: Frescor, formigamento, aquecimento ou leve anestesia percebidos fisicamente, separados do aroma.
+    anchors: ["contida", "presente", "dominante"]
+  - id: tipicidade
+    label: Tipicidade
+    kind: judgment
+    description: Aderência ao estilo-base ou coerência com a proposta sensorial declarada.
+    anchors: ["difusa", "correta", "exemplar"]
+  - id: limpeza
+    label: Limpeza
+    kind: judgment
+    description: Ausência de contaminações, desvios e ruídos que comprometam a leitura.
+    anchors: ["comprometida", "correta", "limpa"]
+styles:
+  - id: chimarrao
+    label: Chimarrão tradicional brasileiro
+    shortLabel: Chimarrão
+    description: Erva muito fresca, moagem fina, alto teor de pó, baixo ou nenhum estacionamento.
+  - id: terere
+    label: Tereré
+    shortLabel: Tereré
+    description: Corte mais grosso, maior proporção de palitos, extração fria.
+  - id: argentino
+    label: Mate argentino con palo
+    shortLabel: Argentino
+    description: Folha mais grossa, presença relevante de palitos, estacionamento prolongado.
+  - id: uruguaio
+    label: Mate uruguaio despalado ou PU-1
+    shortLabel: Uruguaio
+    description: Corte fino, quase sem palitos, pó relevante, normalmente estacionado.
+  - id: tostado
+    label: Mate tostado
+    shortLabel: Tostado
+    description: Tratamento térmico mais intenso, perfil de Maillard.
+families:
+  - id: vegetal
+    label: Vegetal e Verde
+    color: "#22c55e"
+    descriptors:
+      - id: verde-fresco
+        label: Verde fresco
+        polarity: positive
+        styles: ["chimarrao"]
+        domains: ["flavor"]
+        children:
+          - id: grama-recem-cortada
+            label: Grama recém-cortada
+            polarity: positive
+            styles: ["chimarrao"]
+          - id: folha-rasgada
+            label: Folha rasgada
+            polarity: positive
+            styles: ["chimarrao"]
+          - id: ervilha-torta
+            label: Ervilha-torta
+            polarity: positive
+            styles: ["chimarrao"]
+          - id: espinafre-cru
+            label: Espinafre cru
+            polarity: positive
+            styles: ["chimarrao"]
+          - id: clorofila
+            label: Clorofila
+            polarity: positive
+            styles: ["chimarrao"]
+      - id: verde-umido
+        label: Verde úmido
+        polarity: contextual
+        styles: ["chimarrao"]
+        domains: ["flavor"]
+        children:
+          - id: seiva
+            label: Seiva
+            polarity: contextual
+            styles: ["chimarrao"]
+          - id: folha-macerada
+            label: Folha macerada
+            polarity: contextual
+            styles: ["chimarrao"]
+          - id: caldo-folha
+            label: Caldo de folha
+            polarity: contextual
+            styles: ["chimarrao"]
+          - id: couve-batida
+            label: Couve batida
+            polarity: contextual
+            styles: ["chimarrao"]
+      - id: verde-cozido
+        label: Verde cozido
+        polarity: contextual
+        styles: ["chimarrao"]
+        domains: ["flavor"]
+        children:
+          - id: espinafre-cozido
+            label: Espinafre cozido
+            polarity: contextual
+            styles: ["chimarrao"]
+          - id: vagem-aquecida
+            label: Vagem aquecida
+            polarity: contextual
+            styles: ["chimarrao"]
+          - id: couve-abafada
+            label: Couve abafada
+            polarity: contextual
+            styles: ["chimarrao"]
+      - id: verde-seco
+        label: Verde seco
+        polarity: contextual
+        styles: ["argentino", "terere"]
+        domains: ["flavor"]
+        children:
+          - id: feno-claro
+            label: Feno claro
+            polarity: contextual
+            styles: ["argentino", "terere"]
+          - id: palha-limpa
+            label: Palha limpa
+            polarity: contextual
+            styles: ["argentino", "terere"]
+          - id: folha-seca-cha
+            label: Folha seca de chá verde
+            polarity: contextual
+            styles: ["argentino", "terere"]
+
+  - id: herbal
+    label: Herbal, Balsâmico e Refrescante
+    color: "#15803d"
+    descriptors:
+      - id: capim-cidreira
+        label: Capim-cidreira
+        polarity: positive
+        styles: ["terere", "chimarrao"]
+        domains: ["flavor"]
+        notes: Pode ficar na fronteira entre vegetal e herbal. Quando lembrar folha esmagada e clorofila, leia mais como vegetal; quando puxar para terpenos cítricos e refrescância, leia como herbal.
+      - id: pepino-fresco
+        label: Pepino fresco
+        polarity: positive
+        styles: ["terere"]
+        domains: ["flavor"]
+      - id: erva-doce
+        label: Erva-doce
+        polarity: positive
+        styles: ["chimarrao", "terere"]
+        domains: ["flavor"]
+      - id: anis-leve
+        label: Anis leve
+        polarity: positive
+        styles: ["chimarrao"]
+        domains: ["flavor"]
+      - id: hortela
+        label: Hortelã
+        polarity: positive
+        styles: ["terere"]
+        domains: ["flavor", "trigeminal"]
+      - id: menta
+        label: Menta
+        polarity: positive
+        styles: ["terere"]
+        domains: ["flavor", "trigeminal"]
+        notes: O aroma mentolado pode ser suave, enquanto a sensação física de resfriamento pode parecer mais intensa. Convém registrar essas duas camadas separadamente.
+      - id: eucalipto
+        label: Eucalipto
+        polarity: positive
+        styles: ["terere", "chimarrao"]
+        domains: ["flavor", "trigeminal"]
+      - id: canfora
+        label: Cânfora discreta
+        polarity: contextual
+        styles: ["terere"]
+        domains: ["flavor", "trigeminal"]
+        notes: Em tererés limpos costuma aparecer em baixa intensidade. Quando domina ou fica medicinal demais, a leitura perde elegância.
+  
+  - id: umami
+    label: Umami, Caldo e Notas Marinhas/Salinas
+    color: "#0f766e"
+    descriptors:
+      - id: caldo-legumes
+        label: Caldo de legumes
+        polarity: contextual
+        styles: ["chimarrao", "uruguaio"]
+        domains: ["flavor"]
+      - id: agua-vegetais
+        label: Água de cozimento de vegetais
+        polarity: contextual
+        styles: ["chimarrao", "uruguaio"]
+        domains: ["flavor"]
+      - id: cogumelo-branco
+        label: Cogumelo branco sutil
+        polarity: contextual
+        styles: ["chimarrao", "uruguaio"]
+        domains: ["flavor"]
+      - id: nori
+        label: Nori discreto
+        polarity: positive
+        styles: ["chimarrao"]
+        domains: ["flavor"]
+      - id: kombu
+        label: Kombu
+        polarity: positive
+        styles: ["chimarrao"]
+        domains: ["flavor"]
+      - id: mineralidade-retrogosto
+        label: Mineralidade sutil no retrogosto
+        polarity: contextual
+        styles: ["chimarrao", "uruguaio", "terere"]
+        domains: ["flavor"]
+        notes: Registro aromático e retro-olfativo de fundo, distinto tanto do salgado evidente quanto da sensação metálica dura.
+      - id: toque-ferreo
+        label: Toque férreo / mineralidade tátil
+        polarity: contextual
+        styles: ["chimarrao", "uruguaio"]
+        domains: ["flavor", "structure"]
+        notes: "Use com cautela: aqui a leitura é tátil-mineral e sutil, não metálica nem oxidada."
+      - id: salinidade-sutil
+        label: Salinidade sutil
+        polarity: contextual
+        styles: ["chimarrao", "uruguaio", "terere"]
+        domains: ["taste", "flavor"]
+
+  - id: frutado
+    label: Frutado, Doce e Floral
+    color: "#d97706"
+    descriptors:
+      - id: doces-cana-mel
+        label: Doces de cana e mel
+        polarity: positive
+        styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+        domains: ["flavor"]
+        children:
+          - id: cana-acucar
+            label: Cana-de-açúcar
+            polarity: positive
+            styles: ["chimarrao", "terere"]
+          - id: rapadura
+            label: Rapadura
+            polarity: positive
+            styles: ["chimarrao", "uruguaio", "tostado"]
+            notes: Em chimarrões muito frescos tende a surgir como doçura escura de fundo, não como protagonista aromática.
+          - id: mel-claro
+            label: Mel claro
+            polarity: positive
+            styles: ["argentino", "tostado"]
+      - id: frutas-secas
+        label: Frutas secas
+        polarity: contextual
+        styles: ["uruguaio", "tostado"]
+        domains: ["flavor"]
+        children:
+          - id: figo-seco
+            label: Figo seco
+            polarity: contextual
+            styles: ["uruguaio"]
+          - id: ameixa-seca
+            label: Ameixa seca
+            polarity: contextual
+            styles: ["uruguaio", "tostado"]
+          - id: uva-passa
+            label: Uva passa
+            polarity: contextual
+            styles: ["uruguaio", "tostado"]
+      - id: floral-citrico-seco
+        label: Floral e cítrico seco
+        polarity: contextual
+        styles: ["argentino"]
+        domains: ["flavor"]
+        children:
+          - id: casca-laranja
+            label: Casca de laranja
+            polarity: contextual
+            styles: ["argentino"]
+          - id: flor-seca
+            label: Flor seca
+            polarity: contextual
+            styles: ["argentino"]
+          - id: camomila
+            label: Camomila
+            polarity: contextual
+            styles: ["argentino"]
+
+  - id: terroso
+    label: Terroso, Mineral e Bosque
+    color: "#78716c"
+    descriptors:
+      - id: raiz-fresca
+        label: Raiz fresca
+        polarity: positive
+        styles: ["chimarrao", "uruguaio"]
+        domains: ["flavor"]
+      - id: terra-umida
+        label: Terra úmida
+        polarity: positive
+        styles: ["uruguaio", "argentino"]
+        domains: ["flavor"]
+      - id: petricor
+        label: Petricor
+        polarity: positive
+        styles: ["uruguaio", "argentino"]
+        domains: ["flavor"]
+      - id: argila
+        label: Argila
+        polarity: contextual
+        styles: ["uruguaio", "argentino"]
+        domains: ["flavor"]
+      - id: pedra-molhada
+        label: Pedra molhada
+        polarity: positive
+        styles: ["uruguaio", "argentino", "chimarrao", "terere"]
+        domains: ["flavor"]
+      - id: musgo
+        label: Musgo limpo
+        polarity: positive
+        styles: ["argentino", "uruguaio"]
+        domains: ["flavor"]
+      - id: folha-outono
+        label: Folha de outono
+        polarity: contextual
+        styles: ["argentino"]
+        domains: ["flavor"]
+
+  - id: madeira
+    label: Madeira, Resina e Casca
+    color: "#92400e"
+    descriptors:
+      - id: casca-arvore
+        label: Casca de árvore
+        polarity: contextual
+        styles: ["argentino", "uruguaio", "tostado"]
+        domains: ["flavor"]
+      - id: cedro
+        label: Cedro
+        polarity: positive
+        styles: ["argentino", "uruguaio", "tostado"]
+        domains: ["flavor"]
+      - id: serragem
+        label: Serragem limpa
+        polarity: contextual
+        styles: ["argentino", "uruguaio"]
+        domains: ["flavor"]
+      - id: resina
+        label: Resina
+        polarity: positive
+        styles: ["uruguaio"]
+        domains: ["flavor"]
+      - id: pinho
+        label: Pinho sutil
+        polarity: positive
+        styles: ["uruguaio"]
+        domains: ["flavor"]
+      - id: charuto
+        label: Caixa de charuto limpa
+        polarity: positive
+        styles: ["uruguaio"]
+        domains: ["flavor"]
+
+  - id: tostado
+    label: Tostado, Cereal e Maillard
+    color: "#78350f"
+    descriptors:
+      - id: cereal-assado
+        label: Cereal assado
+        polarity: positive
+        styles: ["tostado", "argentino"]
+        domains: ["flavor"]
+      - id: cevada-torrada
+        label: Cevada torrada
+        polarity: positive
+        styles: ["tostado"]
+        domains: ["flavor"]
+      - id: casca-pao
+        label: Casca de pão
+        polarity: positive
+        styles: ["tostado"]
+        domains: ["flavor"]
+      - id: pao-tostado
+        label: Pão tostado
+        polarity: positive
+        styles: ["tostado", "uruguaio"]
+        domains: ["flavor"]
+      - id: cacau-nibs
+        label: Cacau nibs
+        polarity: positive
+        styles: ["uruguaio", "tostado"]
+        domains: ["flavor"]
+      - id: caramelo-escuro
+        label: Caramelo escuro
+        polarity: positive
+        styles: ["tostado"]
+        domains: ["flavor"]
+      - id: acucar-queimado
+        label: Açúcar queimado
+        polarity: contextual
+        styles: ["tostado"]
+        domains: ["flavor"]
+
+  - id: especiarias
+    label: Especiarias e Condimentos
+    color: "#b45309"
+    descriptors:
+      - id: cravo-india
+        label: Cravo-da-índia
+        polarity: positive
+        styles: ["argentino", "uruguaio", "tostado"]
+        domains: ["flavor", "trigeminal"]
+      - id: canela
+        label: Canela sutil
+        polarity: positive
+        styles: ["argentino", "uruguaio", "tostado"]
+        domains: ["flavor"]
+      - id: gengibre-seco
+        label: Gengibre seco
+        polarity: positive
+        styles: ["argentino", "uruguaio", "tostado"]
+        domains: ["flavor", "trigeminal"]
+      - id: noz-moscada
+        label: Noz-moscada
+        polarity: positive
+        styles: ["argentino", "uruguaio", "tostado"]
+        domains: ["flavor"]
+      - id: pimenta-leve
+        label: Notas de pimenta leve
+        polarity: positive
+        styles: ["argentino", "uruguaio", "tostado"]
+        domains: ["flavor", "trigeminal"]
+
+  - id: defumado
+    label: Defumado
+    color: "#44403c"
+    descriptors:
+      - id: madeira-tostada
+        label: Madeira tostada
+        polarity: positive
+        styles: ["uruguaio"]
+        domains: ["flavor"]
+      - id: fumaca-lenha
+        label: Fumaça doce de lenha
+        polarity: positive
+        styles: ["uruguaio"]
+        domains: ["flavor"]
+      - id: folha-curada
+        label: Folha curada
+        polarity: positive
+        styles: ["uruguaio", "argentino"]
+        domains: ["flavor"]
+      - id: tabaco-seco
+        label: Tabaco seco
+        polarity: positive
+        styles: ["uruguaio", "argentino"]
+        domains: ["flavor"]
+      - id: brasa-fria
+        label: Brasa fria
+        polarity: contextual
+        styles: ["uruguaio"]
+        domains: ["flavor"]
+      - id: lareira-limpa
+        label: Lareira limpa
+        polarity: positive
+        styles: ["uruguaio", "argentino"]
+        domains: ["flavor"]
+
+  - id: defeitos
+    label: Defeitos e Desvios
+    color: "#b91c1c"
+    descriptors:
+      - id: fumaca-acrilica
+        label: Fumaça acrílica
+        polarity: defect
+        styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+        domains: ["defect"]
+        notes: Fumaça sintética, cortante e antinatural, mais próxima de plástico ou borracha do que de lenha limpa.
+        children:
+          - id: plastico-queimado
+            label: Plástico queimado
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: borracha-queimada
+            label: Borracha queimada
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: fuligem-agressiva
+            label: Fuligem agressiva
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+      - id: cinzas
+        label: Cinzas
+        polarity: defect
+        styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+        domains: ["defect"]
+        notes: Resquício da combustão no processo, fuligem fina que difere da fumaça limpa e resseca a boca.
+        children:
+          - id: cinzeiro
+            label: Cinzeiro
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: po-queimado
+            label: Pó queimado
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: poeira-carvao-seca
+            label: Poeira de carvão seca
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+      - id: queimado
+        label: Queimado ou carbonizado
+        polarity: defect
+        styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+        domains: ["defect"]
+        notes: Excesso de tratamento térmico, com escurecimento bruto e amargor sem profundidade.
+        children:
+          - id: carvao
+            label: Carvão
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: amargor-oco
+            label: Amargor oco
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+      - id: metalico
+        label: Metálico
+        polarity: defect
+        styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+        domains: ["defect"]
+        notes: Sensação mineral dura e artificial, mais ligada a moeda, ferro ou água inadequada do que a mineralidade boa.
+        children:
+          - id: moeda
+            label: Moeda
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: ferro
+            label: Ferro
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: amargor-metalico
+            label: Amargor metálico
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+      - id: oxidacao
+        label: Oxidação ou papelão
+        polarity: defect
+        styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+        domains: ["defect"]
+        notes: Perda de brilho aromático e sensação de produto velho, murcho ou cansado.
+        children:
+          - id: papel-velho
+            label: Papel velho
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: cereal-murcho
+            label: Cereal murcho
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: gordura-cansada
+            label: Gordura cansada
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+      - id: ranco
+        label: Ranço
+        polarity: defect
+        styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+        domains: ["defect"]
+        notes: Degradação oleosa perceptível como gordura velha, noz passada ou amêndoa cansada.
+        children:
+          - id: oleo-velho
+            label: Óleo velho
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: noz-envelhecida
+            label: Noz envelhecida
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+      - id: lactico-suado
+        label: Lático / Suado
+        polarity: defect
+        styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+        domains: ["defect"]
+        notes: Fermentação lática indesejada, mais associada a demora na secagem ou no encaminhamento ao sapecador do que a maturação controlada.
+        children:
+          - id: iogurte-azedo
+            label: Iogurte azedo
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: queijo-suado
+            label: Queijo suado
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: suor
+            label: Suor
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: pano-umido-azedo
+            label: Pano úmido azedo
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+      - id: avinagrado-acetico
+        label: Avinagrado / Acético
+        polarity: defect
+        styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+        domains: ["defect"]
+        notes: Desvio acético que sai do frescor esperado e entra em azedume volátil, vinagrado ou fruta avinagrada.
+        children:
+          - id: vinagre
+            label: Vinagre
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: azedume-volatil
+            label: Azedume volátil
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: fruta-avinagrada
+            label: Fruta avinagrada
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+      - id: poeira-suja
+        label: Poeira suja
+        polarity: defect
+        styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+        domains: ["defect"]
+        notes: Sujidade seca ou armazenamento ruim, sem a limpeza terrosa ou mineral positiva.
+        children:
+          - id: po-velho
+            label: Pó velho
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: prateleira
+            label: Prateleira
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: saco-umido
+            label: Saco úmido
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+      - id: mofo
+        label: Mofo ou bolor
+        polarity: defect
+        styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+        domains: ["defect"]
+        notes: Contaminação úmida e abafada, mais próxima de armário fechado ou pano molhado do que de maturação limpa.
+        children:
+          - id: armario-fechado
+            label: Armário fechado
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: pano-umido
+            label: Pano úmido mofado
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
+          - id: porao
+            label: Porão
+            polarity: defect
+            styles: ["chimarrao", "argentino", "uruguaio", "terere", "tostado"]
