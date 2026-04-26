@@ -1,0 +1,1150 @@
+meta:
+  version: 2
+compositionCategories:
+  - id: blend-erva-pura
+    label: Blend de Yerba Mate Pura
+    description: Solo Ilex paraguariensis, combinando cosechas, orígenes o procesos distintos.
+    howToRead: Busca equilibrio, consistencia e integración entre lotes, sin exigir picos extremos en un único eje.
+    risk: Confundir redondez y armonía con falta de personalidad.
+  - id: mate-composto
+    label: Mate Compuesto
+    description: Yerba mate base mezclada con botánicos, especias, flores o aromatizantes.
+    howToRead: >-
+      Evalúa la sinergia entre el botánico adjunto y la yerba base, registrando el aroma líder, la estructura de fondo y
+      el retrogusto de la yerba desnuda.
+    risk: >-
+      Dejar que el aromatizante esconda defectos de la yerba base o penalizar la muestra por alejarse de la tipicidad de
+      yerba pura.
+evaluationAxes:
+  - id: intensidade
+    label: Intensidad
+    kind: structure
+    description: Impacto global de los estímulos percibidos, sin confundir fuerza con calidad.
+    anchors:
+      - baja
+      - media
+      - alta
+  - id: amargor
+    label: Amargor
+    kind: structure
+    description: Eje estructural de la yerba mate, que puede leerse como verde, afilado, redondo o profundo.
+    anchors:
+      - bajo
+      - medio
+      - alto
+  - id: adstringencia
+    label: Astringencia
+    kind: structure
+    description: Secancia táctil y gingival, corta o prolongada, positiva cuando sostiene la bebida sin raspar.
+    anchors:
+      - fina
+      - marcada
+      - agresiva
+  - id: corpo
+    label: Cuerpo
+    kind: structure
+    description: Densidad, peso y llenado táctil de la bebida a lo largo de la sesión.
+    anchors:
+      - ligero
+      - medio
+      - lleno
+  - id: textura
+    label: Textura
+    kind: structure
+    description: Calidad táctil de la bebida, yendo de sedosa y cremosa a arenosa o áspera.
+    anchors:
+      - sedosa
+      - cremosa
+      - arenosa
+  - id: suculencia
+    label: Jugosidad
+    kind: structure
+    description: Capacidad de la bebida para estimular salivación y mantener sensación caldosa o acuosa en boca.
+    anchors:
+      - acuosa
+      - salivante
+      - caldosa
+  - id: persistencia
+    label: Persistencia
+    kind: structure
+    description: Tiempo de permanencia de las sensaciones y del retrogusto después del sorbo.
+    anchors:
+      - corta
+      - media
+      - larga
+  - id: final
+    label: Final
+    kind: structure
+    description: Dirección y calidad del cierre sensorial en el retrogusto.
+    anchors:
+      - limpio
+      - seco
+      - dulce
+  - id: trigeminalidade
+    label: Trigeminalidad
+    kind: trigeminal
+    description: Frescura, hormigueo, calentamiento o leve anestesia percibidos físicamente y separados del aroma.
+    anchors:
+      - contenida
+      - presente
+      - dominante
+  - id: tipicidade
+    label: Tipicidad
+    kind: judgment
+    description: Adherencia al estilo base o coherencia con la propuesta sensorial declarada.
+    anchors:
+      - difusa
+      - correcta
+      - ejemplar
+  - id: limpeza
+    label: Limpieza
+    kind: judgment
+    description: Ausencia de contaminaciones, desvíos y ruidos que comprometan la lectura.
+    anchors:
+      - comprometida
+      - correcta
+      - limpia
+styles:
+  - id: chimarrao
+    label: Chimarrão tradicional brasileño
+    shortLabel: Chimarrão
+    description: Yerba muy fresca, molienda fina, alto contenido de polvo, poco o ningún estacionamiento.
+  - id: terere
+    label: Tereré
+    shortLabel: Tereré
+    description: Corte más grueso, mayor proporción de palos, extracción en frío.
+  - id: argentino
+    label: Mate argentino con palo
+    shortLabel: Argentino
+    description: Hoja más gruesa, presencia relevante de palos, estacionamiento prolongado.
+  - id: uruguaio
+    label: Mate uruguayo despalado o PU-1
+    shortLabel: Uruguayo
+    description: Corte fino, casi sin palos, polvo relevante, normalmente estacionado.
+  - id: tostado
+    label: Mate tostado
+    shortLabel: Tostado
+    description: Tratamiento térmico más intenso, perfil de Maillard.
+families:
+  - id: vegetal
+    label: Vegetal y Verde
+    color: '#22c55e'
+    descriptors:
+      - id: verde-fresco
+        label: Verde fresco
+        polarity: positive
+        styles:
+          - chimarrao
+        domains:
+          - flavor
+        children:
+          - id: grama-recem-cortada
+            label: Césped recién cortado
+            polarity: positive
+            styles:
+              - chimarrao
+          - id: folha-rasgada
+            label: Hoja rasgada
+            polarity: positive
+            styles:
+              - chimarrao
+          - id: ervilha-torta
+            label: Arveja china
+            polarity: positive
+            styles:
+              - chimarrao
+          - id: espinafre-cru
+            label: Espinaca cruda
+            polarity: positive
+            styles:
+              - chimarrao
+          - id: clorofila
+            label: Clorofila
+            polarity: positive
+            styles:
+              - chimarrao
+      - id: verde-umido
+        label: Verde húmedo
+        polarity: contextual
+        styles:
+          - chimarrao
+        domains:
+          - flavor
+        children:
+          - id: seiva
+            label: Savia
+            polarity: contextual
+            styles:
+              - chimarrao
+          - id: folha-macerada
+            label: Hoja macerada
+            polarity: contextual
+            styles:
+              - chimarrao
+          - id: caldo-folha
+            label: Caldo de hoja
+            polarity: contextual
+            styles:
+              - chimarrao
+          - id: couve-batida
+            label: Acelga licuada
+            polarity: contextual
+            styles:
+              - chimarrao
+      - id: verde-cozido
+        label: Verde cocido
+        polarity: contextual
+        styles:
+          - chimarrao
+        domains:
+          - flavor
+        children:
+          - id: espinafre-cozido
+            label: Espinaca cocida
+            polarity: contextual
+            styles:
+              - chimarrao
+          - id: vagem-aquecida
+            label: Chaucha cocida
+            polarity: contextual
+            styles:
+              - chimarrao
+          - id: couve-abafada
+            label: Acelga rehogada
+            polarity: contextual
+            styles:
+              - chimarrao
+      - id: verde-seco
+        label: Verde seco
+        polarity: contextual
+        styles:
+          - argentino
+          - terere
+        domains:
+          - flavor
+        children:
+          - id: feno-claro
+            label: Heno claro
+            polarity: contextual
+            styles:
+              - argentino
+              - terere
+          - id: palha-limpa
+            label: Paja limpia
+            polarity: contextual
+            styles:
+              - argentino
+              - terere
+          - id: folha-seca-cha
+            label: Hoja seca de té verde
+            polarity: contextual
+            styles:
+              - argentino
+              - terere
+  - id: herbal
+    label: Herbal, Balsámico y Refrescante
+    color: '#15803d'
+    descriptors:
+      - id: capim-cidreira
+        label: Hierba limón
+        polarity: positive
+        styles:
+          - terere
+          - chimarrao
+        domains:
+          - flavor
+        notes: >-
+          Esta nota puede quedar en la frontera entre vegetal y herbal. Cuando recuerde a hoja machacada y clorofila,
+          léela más como vegetal; cuando tire hacia terpenos cítricos y frescura, léela más como herbal.
+      - id: pepino-fresco
+        label: Pepino fresco
+        polarity: positive
+        styles:
+          - terere
+        domains:
+          - flavor
+      - id: erva-doce
+        label: Hinojo
+        polarity: positive
+        styles:
+          - chimarrao
+          - terere
+        domains:
+          - flavor
+      - id: anis-leve
+        label: Anís leve
+        polarity: positive
+        styles:
+          - chimarrao
+        domains:
+          - flavor
+      - id: hortela
+        label: Hierbabuena
+        polarity: positive
+        styles:
+          - terere
+        domains:
+          - flavor
+          - trigeminal
+      - id: menta
+        label: Menta
+        polarity: positive
+        styles:
+          - terere
+        domains:
+          - flavor
+          - trigeminal
+        notes: >-
+          El aroma mentolado puede ser suave mientras la sensación física de enfriamiento parece más intensa. Conviene
+          registrar esas dos capas por separado.
+      - id: eucalipto
+        label: Eucalipto
+        polarity: positive
+        styles:
+          - terere
+          - chimarrao
+        domains:
+          - flavor
+          - trigeminal
+      - id: canfora
+        label: Alcanfor discreto
+        polarity: contextual
+        styles:
+          - terere
+        domains:
+          - flavor
+          - trigeminal
+        notes: >-
+          En tererés limpios suele aparecer en baja intensidad. Cuando domina o se vuelve demasiado medicinal, la
+          lectura pierde elegancia.
+  - id: umami
+    label: Umami, Caldo y Notas Marinas/Salinas
+    color: '#0f766e'
+    descriptors:
+      - id: caldo-legumes
+        label: Caldo de verduras
+        polarity: contextual
+        styles:
+          - chimarrao
+          - uruguaio
+        domains:
+          - flavor
+      - id: agua-vegetais
+        label: Agua de cocción de vegetales
+        polarity: contextual
+        styles:
+          - chimarrao
+          - uruguaio
+        domains:
+          - flavor
+      - id: cogumelo-branco
+        label: Hongo blanco sutil
+        polarity: contextual
+        styles:
+          - chimarrao
+          - uruguaio
+        domains:
+          - flavor
+      - id: nori
+        label: Nori discreto
+        polarity: positive
+        styles:
+          - chimarrao
+        domains:
+          - flavor
+      - id: kombu
+        label: Kombu
+        polarity: positive
+        styles:
+          - chimarrao
+        domains:
+          - flavor
+      - id: mineralidade-retrogosto
+        label: Mineralidad sutil en el retrogusto
+        polarity: contextual
+        styles:
+          - chimarrao
+          - uruguaio
+          - terere
+        domains:
+          - flavor
+        notes: >-
+          Registro aromático y retronasal de fondo, distinto tanto de la salinidad evidente como de la sensación
+          metálica dura.
+      - id: toque-ferreo
+        label: Toque ferroso / mineralidad táctil
+        polarity: contextual
+        styles:
+          - chimarrao
+          - uruguaio
+        domains:
+          - flavor
+          - structure
+        notes: 'Úsalo con cuidado: aquí la lectura es táctil-mineral y sutil, no metálica ni oxidada.'
+      - id: salinidade-sutil
+        label: Salinidad sutil
+        polarity: contextual
+        styles:
+          - chimarrao
+          - uruguaio
+          - terere
+        domains:
+          - taste
+          - flavor
+  - id: frutado
+    label: Frutado, Dulce y Floral
+    color: '#d97706'
+    descriptors:
+      - id: doces-cana-mel
+        label: Dulces de caña y miel
+        polarity: positive
+        styles:
+          - chimarrao
+          - argentino
+          - uruguaio
+          - terere
+          - tostado
+        domains:
+          - flavor
+        children:
+          - id: cana-acucar
+            label: Caña de azúcar
+            polarity: positive
+            styles:
+              - chimarrao
+              - terere
+          - id: rapadura
+            label: Rapadura
+            polarity: positive
+            styles:
+              - chimarrao
+              - uruguaio
+              - tostado
+            notes: >-
+              En chimarrões muy frescos tiende a aparecer como un dulzor oscuro de fondo, no como protagonista
+              aromático.
+          - id: mel-claro
+            label: Miel clara
+            polarity: positive
+            styles:
+              - argentino
+              - tostado
+      - id: frutas-secas
+        label: Frutas secas
+        polarity: contextual
+        styles:
+          - uruguaio
+          - tostado
+        domains:
+          - flavor
+        children:
+          - id: figo-seco
+            label: Higo seco
+            polarity: contextual
+            styles:
+              - uruguaio
+          - id: ameixa-seca
+            label: Ciruela pasa
+            polarity: contextual
+            styles:
+              - uruguaio
+              - tostado
+          - id: uva-passa
+            label: Uva pasa
+            polarity: contextual
+            styles:
+              - uruguaio
+              - tostado
+      - id: floral-citrico-seco
+        label: Floral y cítrico seco
+        polarity: contextual
+        styles:
+          - argentino
+        domains:
+          - flavor
+        children:
+          - id: casca-laranja
+            label: Cáscara de naranja
+            polarity: contextual
+            styles:
+              - argentino
+          - id: flor-seca
+            label: Flor seca
+            polarity: contextual
+            styles:
+              - argentino
+          - id: camomila
+            label: Manzanilla
+            polarity: contextual
+            styles:
+              - argentino
+  - id: terroso
+    label: Terroso, Mineral y Bosque
+    color: '#78716c'
+    descriptors:
+      - id: raiz-fresca
+        label: Raíz fresca
+        polarity: positive
+        styles:
+          - chimarrao
+          - uruguaio
+        domains:
+          - flavor
+      - id: terra-umida
+        label: Tierra húmeda
+        polarity: positive
+        styles:
+          - uruguaio
+          - argentino
+        domains:
+          - flavor
+      - id: petricor
+        label: Petricor
+        polarity: positive
+        styles:
+          - uruguaio
+          - argentino
+        domains:
+          - flavor
+      - id: argila
+        label: Arcilla
+        polarity: contextual
+        styles:
+          - uruguaio
+          - argentino
+        domains:
+          - flavor
+      - id: pedra-molhada
+        label: Piedra mojada
+        polarity: positive
+        styles:
+          - uruguaio
+          - argentino
+          - chimarrao
+          - terere
+        domains:
+          - flavor
+      - id: musgo
+        label: Musgo limpio
+        polarity: positive
+        styles:
+          - argentino
+          - uruguaio
+        domains:
+          - flavor
+      - id: folha-outono
+        label: Hoja de otoño
+        polarity: contextual
+        styles:
+          - argentino
+        domains:
+          - flavor
+  - id: madeira
+    label: Madera, Resina y Corteza
+    color: '#92400e'
+    descriptors:
+      - id: casca-arvore
+        label: Corteza de árbol
+        polarity: contextual
+        styles:
+          - argentino
+          - uruguaio
+          - tostado
+        domains:
+          - flavor
+      - id: cedro
+        label: Cedro
+        polarity: positive
+        styles:
+          - argentino
+          - uruguaio
+          - tostado
+        domains:
+          - flavor
+      - id: serragem
+        label: Serrín limpio
+        polarity: contextual
+        styles:
+          - argentino
+          - uruguaio
+        domains:
+          - flavor
+      - id: resina
+        label: Resina
+        polarity: positive
+        styles:
+          - uruguaio
+        domains:
+          - flavor
+      - id: pinho
+        label: Pino sutil
+        polarity: positive
+        styles:
+          - uruguaio
+        domains:
+          - flavor
+      - id: charuto
+        label: Caja de puros limpia
+        polarity: positive
+        styles:
+          - uruguaio
+        domains:
+          - flavor
+  - id: tostado
+    label: Tostado, Cereal y Maillard
+    color: '#78350f'
+    descriptors:
+      - id: cereal-assado
+        label: Cereal tostado
+        polarity: positive
+        styles:
+          - tostado
+          - argentino
+        domains:
+          - flavor
+      - id: cevada-torrada
+        label: Cebada tostada
+        polarity: positive
+        styles:
+          - tostado
+        domains:
+          - flavor
+      - id: casca-pao
+        label: Corteza de pan
+        polarity: positive
+        styles:
+          - tostado
+        domains:
+          - flavor
+      - id: pao-tostado
+        label: Pan tostado
+        polarity: positive
+        styles:
+          - tostado
+          - uruguaio
+        domains:
+          - flavor
+      - id: cacau-nibs
+        label: Nibs de cacao
+        polarity: positive
+        styles:
+          - uruguaio
+          - tostado
+        domains:
+          - flavor
+      - id: caramelo-escuro
+        label: Caramelo oscuro
+        polarity: positive
+        styles:
+          - tostado
+        domains:
+          - flavor
+      - id: acucar-queimado
+        label: Azúcar quemado
+        polarity: contextual
+        styles:
+          - tostado
+        domains:
+          - flavor
+  - id: especiarias
+    label: Especias y Condimentos
+    color: '#b45309'
+    descriptors:
+      - id: cravo-india
+        label: Clavo de olor
+        polarity: positive
+        styles:
+          - argentino
+          - uruguaio
+          - tostado
+        domains:
+          - flavor
+          - trigeminal
+      - id: canela
+        label: Canela sutil
+        polarity: positive
+        styles:
+          - argentino
+          - uruguaio
+          - tostado
+        domains:
+          - flavor
+      - id: gengibre-seco
+        label: Jengibre seco
+        polarity: positive
+        styles:
+          - argentino
+          - uruguaio
+          - tostado
+        domains:
+          - flavor
+          - trigeminal
+      - id: noz-moscada
+        label: Nuez moscada
+        polarity: positive
+        styles:
+          - argentino
+          - uruguaio
+          - tostado
+        domains:
+          - flavor
+      - id: pimenta-leve
+        label: Notas de pimienta leve
+        polarity: positive
+        styles:
+          - argentino
+          - uruguaio
+          - tostado
+        domains:
+          - flavor
+          - trigeminal
+  - id: defumado
+    label: Ahumado
+    color: '#44403c'
+    descriptors:
+      - id: madeira-tostada
+        label: Madera tostada
+        polarity: positive
+        styles:
+          - uruguaio
+        domains:
+          - flavor
+      - id: fumaca-lenha
+        label: Humo dulce de leña
+        polarity: positive
+        styles:
+          - uruguaio
+        domains:
+          - flavor
+      - id: folha-curada
+        label: Hoja curada
+        polarity: positive
+        styles:
+          - uruguaio
+          - argentino
+        domains:
+          - flavor
+      - id: tabaco-seco
+        label: Tabaco seco
+        polarity: positive
+        styles:
+          - uruguaio
+          - argentino
+        domains:
+          - flavor
+      - id: brasa-fria
+        label: Brasa fría
+        polarity: contextual
+        styles:
+          - uruguaio
+        domains:
+          - flavor
+      - id: lareira-limpa
+        label: Chimenea limpia
+        polarity: positive
+        styles:
+          - uruguaio
+          - argentino
+        domains:
+          - flavor
+  - id: defeitos
+    label: Defectos y Desviaciones
+    color: '#b91c1c'
+    descriptors:
+      - id: fumaca-acrilica
+        label: Humo acrílico
+        polarity: defect
+        styles:
+          - chimarrao
+          - argentino
+          - uruguaio
+          - terere
+          - tostado
+        domains:
+          - defect
+        notes: Humo sintético, cortante y antinatural, más cercano al plástico o al caucho que a la leña limpia.
+        children:
+          - id: plastico-queimado
+            label: Plástico quemado
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: borracha-queimada
+            label: Caucho quemado
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: fuligem-agressiva
+            label: Hollín agresivo
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+      - id: cinzas
+        label: Cenizas
+        polarity: defect
+        styles:
+          - chimarrao
+          - argentino
+          - uruguaio
+          - terere
+          - tostado
+        domains:
+          - defect
+        notes: Residuo de la combustión en el proceso, hollín fino que difiere del humo limpio y reseca la boca.
+        children:
+          - id: cinzeiro
+            label: Cenicero
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: po-queimado
+            label: Polvo quemado
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: poeira-carvao-seca
+            label: Polvo seco de carbón
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+      - id: queimado
+        label: Quemado o carbonizado
+        polarity: defect
+        styles:
+          - chimarrao
+          - argentino
+          - uruguaio
+          - terere
+          - tostado
+        domains:
+          - defect
+        notes: Exceso de tratamiento térmico, con oscurecimiento tosco y amargor sin profundidad.
+        children:
+          - id: carvao
+            label: Carbón
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: amargor-oco
+            label: Amargor hueco
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+      - id: metalico
+        label: Metálico
+        polarity: defect
+        styles:
+          - chimarrao
+          - argentino
+          - uruguaio
+          - terere
+          - tostado
+        domains:
+          - defect
+        notes: >-
+          Sensación mineral dura y artificial, más ligada a moneda, hierro o agua inadecuada que a una buena
+          mineralidad.
+        children:
+          - id: moeda
+            label: Moneda
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: ferro
+            label: Hierro
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: amargor-metalico
+            label: Amargor metálico
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+      - id: oxidacao
+        label: Oxidación o cartón
+        polarity: defect
+        styles:
+          - chimarrao
+          - argentino
+          - uruguaio
+          - terere
+          - tostado
+        domains:
+          - defect
+        notes: Pérdida de brillo aromático y sensación de producto viejo, marchito o cansado.
+        children:
+          - id: papel-velho
+            label: Papel viejo
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: cereal-murcho
+            label: Cereal marchito
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: gordura-cansada
+            label: Grasa cansada
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+      - id: ranco
+        label: Rancio
+        polarity: defect
+        styles:
+          - chimarrao
+          - argentino
+          - uruguaio
+          - terere
+          - tostado
+        domains:
+          - defect
+        notes: Degradación oleosa perceptible como grasa vieja, nuez pasada o almendra cansada.
+        children:
+          - id: oleo-velho
+            label: Aceite viejo
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: noz-envelhecida
+            label: Nuez envejecida
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+      - id: lactico-suado
+        label: Láctico / Sudado
+        polarity: defect
+        styles:
+          - chimarrao
+          - argentino
+          - uruguaio
+          - terere
+          - tostado
+        domains:
+          - defect
+        notes: >-
+          Fermentación láctica indeseada, más asociada a demoras en el secado o en el traslado al sapecador que a una
+          maduración controlada.
+        children:
+          - id: iogurte-azedo
+            label: Yogur agrio
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: queijo-suado
+            label: Queso sudado
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: suor
+            label: Sudor
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: pano-umido-azedo
+            label: Paño húmedo agrio
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+      - id: avinagrado-acetico
+        label: Avinagrado / Acético
+        polarity: defect
+        styles:
+          - chimarrao
+          - argentino
+          - uruguaio
+          - terere
+          - tostado
+        domains:
+          - defect
+        notes: Desvío acético que deja atrás la frescura esperada y entra en una acidez volátil, vinagre o fruta avinagrada.
+        children:
+          - id: vinagre
+            label: Vinagre
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: azedume-volatil
+            label: Acidez volátil
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: fruta-avinagrada
+            label: Fruta avinagrada
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+      - id: poeira-suja
+        label: Polvo sucio
+        polarity: defect
+        styles:
+          - chimarrao
+          - argentino
+          - uruguaio
+          - terere
+          - tostado
+        domains:
+          - defect
+        notes: Suciedad seca o mal almacenamiento, sin la limpieza terrosa o mineral positiva.
+        children:
+          - id: po-velho
+            label: Polvo viejo
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: prateleira
+            label: Estante
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: saco-umido
+            label: Saco húmedo
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+      - id: mofo
+        label: Moho o hongueado
+        polarity: defect
+        styles:
+          - chimarrao
+          - argentino
+          - uruguaio
+          - terere
+          - tostado
+        domains:
+          - defect
+        notes: >-
+          Contaminación húmeda y cerrada, más cercana a un armario cerrado o a un paño mojado que a una maduración
+          limpia.
+        children:
+          - id: armario-fechado
+            label: Armario cerrado
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: pano-umido
+            label: Paño húmedo mohoso
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
+          - id: porao
+            label: Sótano
+            polarity: defect
+            styles:
+              - chimarrao
+              - argentino
+              - uruguaio
+              - terere
+              - tostado
