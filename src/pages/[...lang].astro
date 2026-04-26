@@ -8,7 +8,6 @@ import ProjectAbout from '../components/ProjectAbout.astro';
 import ProjectFooter from '../components/ProjectFooter.astro';
 import SunburstChart from '../components/SunburstChart.astro';
 import TreeMapChart from '../components/TreeMapChart.astro';
-import ChartFallback from '../components/ChartFallback.astro';
 import DescriptorPanel from '../components/DescriptorPanel.astro';
 import { chartIds } from '../lib/ui/chartContract';
 import '../styles/global.css';
@@ -77,13 +76,6 @@ const contentSecurityPolicy = import.meta.env.DEV
             </div>
           </div>
           <TreeMapChart data={normalized.sunburst} />
-          <ChartFallback
-            root={normalized.sunburst}
-            title={translations.fallbackTitle}
-            intro={translations.fallbackIntro}
-            descriptorLabel={translations.fallbackDescriptorLabel}
-            guideCta={translations.fallbackGuideCta}
-          />
         </section>
         <section class="panel-section">
           <DescriptorPanel

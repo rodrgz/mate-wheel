@@ -227,17 +227,17 @@ Dois contrastes importantes:
 
 ## 6. Defeitos e Desvios
 
-| Defeito | Como aparece | Causa provável | Observação |
-| --- | --- | --- | --- |
-| Mofo ou bolor | armário fechado, pano úmido, porão | armazenamento úmido ou matéria-prima contaminada | defeito grave |
-| Oxidação ou papelão | papel velho, cereal murcho, gordura cansada | ar, luz, tempo excessivo, embalagem ruim | reduz brilho e limpeza |
-| Ranço | óleo velho, noz envelhecida | degradação lipídica | mais comum em produto mal armazenado |
-| Avinagrado ou fermentado | vinagre, massa azeda, fruta fermentada | fermentação indesejada antes da secagem | defeito claro |
-| Fumaça acrílica | plástico queimado, borracha, fuligem agressiva | secagem mal controlada | diferente de barbacuá limpo |
-| Cinzas | cinzeiro, pó queimado, poeira de carvão seca | resquício da combustão no processo, fuligem fina | difere da fumaça limpa, resseca a boca |
-| Queimado ou carbonizado | carvão, amargor oco | torra ou secagem excessiva | mascara o restante do perfil |
-| Metálico | moeda, ferro, amargor metálico | água inadequada, superextração, utensílio, desequilíbrio mineral | nem sempre vem da erva em si |
-| Poeira suja | pó velho, prateleira, saco úmido | armazenamento ou manuseio ruins | não confundir com terroso limpo |
+| Defeito | Como aparece | Observação |
+| --- | --- | --- |
+| Mofo ou bolor | armário fechado, pano úmido, porão | defeito grave |
+| Oxidação ou papelão | papel velho, cereal murcho, gordura cansada | reduz brilho e limpeza |
+| Ranço | óleo velho, noz envelhecida | mais comum em produto mal armazenado |
+| Avinagrado ou fermentado | vinagre, massa azeda, fruta fermentada | defeito claro |
+| Fumaça acrílica | plástico queimado, borracha, fuligem agressiva | diferente de barbacuá limpo |
+| Cinzas | cinzeiro, pó queimado, poeira de carvão seca | difere da fumaça limpa, resseca a boca |
+| Queimado ou carbonizado | carvão, amargor oco | mascara o restante do perfil |
+| Metálico | moeda, ferro, amargor metálico | nem sempre vem da erva em si |
+| Poeira suja | pó velho, prateleira, saco úmido | não confundir com terroso limpo |
 
 ## 7. Variáveis que Mudam a Leitura Sensorial
 

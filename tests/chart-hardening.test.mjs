@@ -10,22 +10,28 @@ const repoRoot = path.resolve(new URL('..', import.meta.url).pathname);
 const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 let buildPromise;
 
-const localePages = [
+const localePages = ['index.html', 'en/index.html', 'es/index.html'];
+const localeZoomHints = [
   {
     file: 'index.html',
-    fallbackTitle: 'Mapa textual da roda sensorial',
-    fallbackGuideCta: 'Ir para o guia sensorial'
+    hint: 'Zoom: Ctrl + scroll no desktop; pinça no touch',
+    legacyHint: 'Use o scroll do mouse para Zoom In/Out'
   },
   {
     file: 'en/index.html',
-    fallbackTitle: 'Text map of the sensory wheel',
-    fallbackGuideCta: 'Go to the sensory guide'
+    hint: 'Zoom: Ctrl + scroll on desktop; pinch on touch',
+    legacyHint: 'Use mouse scroll for Zoom In/Out'
   },
   {
     file: 'es/index.html',
-    fallbackTitle: 'Mapa textual de la rueda sensorial',
-    fallbackGuideCta: 'Ir a la guía sensorial'
+    hint: 'Zoom: Ctrl + scroll en escritorio; pinza en touch',
+    legacyHint: 'Use el scroll del ratón para Zoom In/Out'
   }
+];
+const localeTypicalStrings = [
+  'Mais típico em:',
+  'Most typical in:',
+  'Más típico en:'
 ];
 
 const ensureBuild = async () => {
@@ -64,13 +70,31 @@ test('initial HTML keeps Tree lazy and out of the eager SSR experience', async (
   assert.doesNotMatch(html, /id="tree-chart"/);
 });
 
-test('localized textual fallback is emitted for every locale build', async () => {
+test('generated HTML keeps Creative Commons attribution only in the footer', async () => {
   for (const page of localePages) {
+    const html = await readBuiltPage(page);
+
+    assert.doesNotMatch(html, /id="chart-fallback"/);
+    assert.doesNotMatch(html, /chart-watermark/);
+    assert.equal(html.match(/CC BY-NC 4\.0/g)?.length ?? 0, 1);
+  }
+});
+
+test('descriptor panel HTML no longer exposes the typical-style label', async () => {
+  for (const page of localePages) {
+    const html = await readBuiltPage(page);
+
+    for (const typicalLabel of localeTypicalStrings) {
+      assert.doesNotMatch(html, new RegExp(typicalLabel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+    }
+  }
+});
+
+test('localized zoom hint reflects desktop modifier and touch pinch', async () => {
+  for (const page of localeZoomHints) {
     const html = await readBuiltPage(page.file);
 
-    assert.match(html, /id="chart-fallback"/);
-    assert.match(html, new RegExp(page.fallbackTitle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
-    assert.match(html, new RegExp(page.fallbackGuideCta.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
-    assert.match(html, /href="#referencia"/);
+    assert.match(html, new RegExp(page.hint.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+    assert.doesNotMatch(html, new RegExp(page.legacyHint.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   }
 });

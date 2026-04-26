@@ -73,12 +73,6 @@ export function setupDescriptorPanel(panelId = chartIds.descriptorPanel): void {
     if (metaEl instanceof HTMLElement) {
       const fragment = document.createDocumentFragment();
 
-      if (item.styles && item.styles.length > 0) {
-        fragment.appendChild(
-          createMetaParagraph('meta-styles', item.styles.join(', '), translations.typicalCode),
-        );
-      }
-
       const noteText = item.tooltip || item.notes || '';
       if (noteText) {
         fragment.appendChild(createMetaParagraph('meta-notes', noteText));

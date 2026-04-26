@@ -46,18 +46,6 @@ const createTreeHost = (wrapper: HTMLElement): HTMLDivElement => {
   const nextContainer = document.createElement('div');
   nextContainer.id = chartIds.chartTree;
   nextContainer.className = 'chart-container chart-shell';
-
-  const watermark = document.createElement('div');
-  watermark.className = 'chart-watermark';
-
-  const link = document.createElement('a');
-  link.href = 'https://creativecommons.org/licenses/by-nc/4.0/';
-  link.target = '_blank';
-  link.rel = 'noopener';
-  link.textContent = 'CC BY-NC 4.0';
-
-  watermark.appendChild(link);
-  nextContainer.appendChild(watermark);
   wrapper.appendChild(nextContainer);
   return nextContainer;
 };
@@ -197,7 +185,9 @@ const getOption = (theme: ThemeMode) => ({
       color: theme === 'dark' ? '#475569' : '#cbd5e1'
     },
     expandAndCollapse: true,
-    roam: !isMobileViewport()
+    roam: isMobileViewport() ? 'scale' : true,
+    zoomOnMouseWheel: 'ctrl',
+    moveOnMouseWheel: false
   }
 });
 

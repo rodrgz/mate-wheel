@@ -7,9 +7,6 @@ interface Props {
 const { data } = Astro.props;
 ---
 <div id={chartIds.chartSunburst} class="chart-container chart-shell">
-  <div class="chart-watermark">
-    <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>
-  </div>
 </div>
 <template id={chartIds.chartSunburstData}>{JSON.stringify(data)}</template>
 
@@ -143,15 +140,28 @@ const { data } = Astro.props;
     };
 
     const bindZoom = () => {
-      chart.getZr().on('mousewheel', (event) => {
-        event.stop();
-        const delta = event.wheelDelta > 0 ? 1.1 : 0.9;
-        zoomLevel = Math.min(Math.max(zoomLevel * delta, 50), 500);
+      const applyZoom = (scaleFactor: number) => {
+        zoomLevel = Math.min(Math.max(zoomLevel * scaleFactor, 50), 500);
         chart.setOption({
           series: {
             radius: ['0%', `${zoomLevel}%`]
           }
         });
+      };
+
+      chart.getZr().on('mousewheel', (event) => {
+        const nativeEvent = event.event as { ctrlKey?: boolean } | undefined;
+        if (!nativeEvent?.ctrlKey) {
+          return;
+        }
+
+        event.stop();
+        applyZoom(event.wheelDelta > 0 ? 1.1 : 0.9);
+      });
+
+      chart.getZr().on('pinch', (event: any) => {
+        event.stop();
+        applyZoom(typeof event.pinchScale === 'number' ? event.pinchScale : 1);
       });
     };
 

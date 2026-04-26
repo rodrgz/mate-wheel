@@ -13,12 +13,7 @@ export const siteCopy = {
     githubRepoLabel: 'Repositório no GitHub',
     toggleChart: 'Clique para alternar entre Roda e Árvore',
     resetChartRoot: 'Voltar à raiz',
-    treeZoomHint: 'Use o scroll do mouse para Zoom In/Out',
-    fallbackTitle: 'Mapa textual da roda sensorial',
-    fallbackIntro:
-      'Se o gráfico não estiver disponível, use este resumo das famílias principais e siga para o guia sensorial completo.',
-    fallbackDescriptorLabel: 'Descritores e pistas principais',
-    fallbackGuideCta: 'Ir para o guia sensorial',
+    treeZoomHint: 'Zoom: Ctrl + scroll no desktop; pinça no touch',
     aboutTitle: 'Sobre o Projeto',
     aboutP1:
       'Este projeto colaborativo nasceu com o objetivo simples de reunir e organizar os achados empíricos de minhas explorações sensoriais diárias com a erva-mate (Erik), aproveitando analogias e métodos comuns da degustação de cafés e cervejas.',
@@ -44,12 +39,7 @@ export const siteCopy = {
     githubRepoLabel: 'GitHub repository',
     toggleChart: 'Click to toggle between Wheel and Tree',
     resetChartRoot: 'Back to root',
-    treeZoomHint: 'Use mouse scroll for Zoom In/Out',
-    fallbackTitle: 'Text map of the sensory wheel',
-    fallbackIntro:
-      'If the chart is unavailable, use this summary of the main families and continue to the full sensory guide.',
-    fallbackDescriptorLabel: 'Key descriptors and cues',
-    fallbackGuideCta: 'Go to the sensory guide',
+    treeZoomHint: 'Zoom: Ctrl + scroll on desktop; pinch on touch',
     aboutTitle: 'About the Project',
     aboutP1:
       'This collaborative project started with a simple goal: to gather and organize my empirical findings from daily sensory explorations with yerba mate (Erik), drawing analogies from coffee and beer tasting methods.',
@@ -75,12 +65,7 @@ export const siteCopy = {
     githubRepoLabel: 'Repositorio en GitHub',
     toggleChart: 'Clique para alternar entre Rueda y Árbol',
     resetChartRoot: 'Volver a la raíz',
-    treeZoomHint: 'Use el scroll del ratón para Zoom In/Out',
-    fallbackTitle: 'Mapa textual de la rueda sensorial',
-    fallbackIntro:
-      'Si el gráfico no está disponible, use este resumen de las familias principales y continúe hacia la guía sensorial completa.',
-    fallbackDescriptorLabel: 'Descriptores y pistas principales',
-    fallbackGuideCta: 'Ir a la guía sensorial',
+    treeZoomHint: 'Zoom: Ctrl + scroll en escritorio; pinza en touch',
     aboutTitle: 'Sobre el Proyecto',
     aboutP1:
       'Este proyecto colaborativo nació con el objetivo de reunir y organizar mis hallazgos empíricos de exploraciones sensoriales diarias con la yerba mate (Erik), aprovechando analogías y métodos de la cata de café y cerveza.',
@@ -100,7 +85,6 @@ export const panelCopy = {
   pt: {
     empty: 'Clique em uma família ou descritor na roda para ver os detalhes.',
     select: 'Selecione um item',
-    typicalCode: 'Mais típico em:',
     alsoKnown: 'Também descrito como:',
     polarities: {
       positive: 'Positivo',
@@ -111,7 +95,6 @@ export const panelCopy = {
   en: {
     empty: 'Click on a family or descriptor on the wheel to see details.',
     select: 'Select an item',
-    typicalCode: 'Most typical in:',
     alsoKnown: 'Also known as:',
     polarities: {
       positive: 'Positive',
@@ -122,7 +105,6 @@ export const panelCopy = {
   es: {
     empty: 'Haga clic en una familia o descriptor en la rueda para ver detalles.',
     select: 'Seleccione un artículo',
-    typicalCode: 'Más típico en:',
     alsoKnown: 'También conocido como:',
     polarities: {
       positive: 'Positivo',

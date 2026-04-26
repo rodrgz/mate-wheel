@@ -26,6 +26,8 @@ test('canonical pt content still exposes the key structure', async () => {
 
   assert.match(reference, /^# Especificação Sensorial da Erva-Mate/m);
   assert.match(reference, /## 4\. Léxico Sensorial Expandido/m);
+  assert.match(reference, /\| Defeito \| Como aparece \| Observação \|/);
+  assert.doesNotMatch(reference, /Causa provável/);
   assert.match(wheel, /^meta:/m);
   assert.match(wheel, /^families:/m);
 });

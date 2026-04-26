@@ -33,8 +33,6 @@ export const chartIds = {
   chartResetRoot: 'chart-reset-root',
   chartSunburstWrapper: 'chart-sunburst-wrapper',
   chartTreemapWrapper: 'chart-treemap-wrapper',
-  chartFallback: 'chart-fallback',
-  chartFallbackTitle: 'chart-fallback-title',
   chartSunburst: 'sunburst-chart',
   chartSunburstData: 'sunburst-data',
   chartTree: 'tree-chart',
