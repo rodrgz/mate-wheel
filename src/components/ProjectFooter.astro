@@ -1,0 +1,51 @@
+---
+interface Props {
+  footer: string;
+}
+
+const { footer } = Astro.props;
+---
+
+<footer class="app-footer">
+  <div class="container">
+    <p>{footer}</p>
+    <div class="footer-license">
+      <p>
+        Código licenciado sob <a href="https://github.com/erik/mate-wheel/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT</a>.
+        Conteúdo e Taxonomia licenciados sob <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC 4.0</a>.
+      </p>
+      <p>O uso comercial da taxonomia e visualização requer autorização prévia.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .app-footer {
+    margin-top: 4rem;
+    padding: 4rem 1rem;
+    border-top: 1px solid var(--header-border);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+  }
+
+  .footer-license {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .footer-license a {
+    color: var(--primary);
+    text-decoration: underline;
+    font-weight: 500;
+  }
+
+  .footer-license p {
+    margin: 0;
+    max-width: 600px;
+    line-height: 1.5;
+  }
+</style>

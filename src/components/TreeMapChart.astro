@@ -1,0 +1,176 @@
+---
+interface Props {
+  data: any;
+}
+const { data } = Astro.props;
+---
+<div id="tree-chart" class="chart-container" style="min-height: 750px; width: 100%; position: relative;">
+  <div class="chart-watermark">
+    <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>
+  </div>
+</div>
+<script is:inline type="application/json" id="tree-data" set:html={JSON.stringify(data)} />
+
+<style>
+  .chart-container {
+    width: 100%;
+    flex: 1;
+    min-height: 850px;
+  }
+  @media (max-width: 900px) {
+    .chart-container {
+      height: 100%;
+      min-height: 700px;
+    }
+  }
+
+  .chart-watermark {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+    pointer-events: auto;
+    background: var(--panel-bg);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-family: sans-serif;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    user-select: none;
+    border: 1px solid var(--panel-border);
+    transition: opacity 0.3s;
+  }
+  .chart-watermark:hover {
+    opacity: 1;
+    background: var(--meta-bg);
+  }
+  .chart-watermark a {
+    color: inherit;
+    text-decoration: none;
+  }
+</style>
+
+<script>
+  import { initEcharts } from '../lib/charts/echartsRuntime';
+  import {
+    bindNodeSelection,
+    bindResize,
+    buildStyleFilteredTree,
+    getInitialTheme,
+    stripItemStyles
+  } from '../lib/charts/mateWheelChart';
+
+  const container = document.getElementById('tree-chart');
+  const dataElement = document.getElementById('tree-data');
+
+  if (container && dataElement) {
+    const chartData = JSON.parse(dataElement.textContent || '{}');
+    const isDark = getInitialTheme() === 'dark';
+    const colorMap: Record<string, string> = {};
+
+    const buildColorMap = (node: any, inheritedColor?: string) => {
+      const color = node.itemStyle?.color || inheritedColor;
+      if (color) {
+        colorMap[node.id] = color;
+      }
+      if (node.children) {
+        node.children.forEach((child: any) => buildColorMap(child, color));
+      }
+    };
+
+    chartData.children.forEach((child: any) => buildColorMap(child));
+
+    const cleanData = {
+      name: 'Mate',
+      children: stripItemStyles(chartData.children || [])
+    };
+
+    let chart = initEcharts(container, isDark ? 'dark' : undefined);
+
+    const getOption = () => ({
+      backgroundColor: 'transparent',
+      tooltip: {
+        trigger: 'item',
+        formatter: '{b}'
+      },
+      series: {
+        type: 'tree',
+        data: [cleanData],
+        layout: 'orthogonal',
+        orient: 'LR',
+        symbol: 'circle',
+        symbolSize: 8,
+        initialTreeDepth: -1,
+        left: '10%',
+        right: '18%',
+        top: '5%',
+        bottom: '5%',
+        animationDurationUpdate: 750,
+        emphasis: {
+          focus: 'ancestor'
+        },
+        label: {
+          position: 'left',
+          verticalAlign: 'middle',
+          align: 'right',
+          fontSize: 10,
+          color: isDark ? '#cbd5e1' : '#334155'
+        },
+        leaves: {
+          label: {
+            position: 'right',
+            verticalAlign: 'middle',
+            align: 'left',
+            fontSize: 10,
+            color: isDark ? '#94a3b8' : '#64748b'
+          }
+        },
+        itemStyle: {
+          color: (params: any) => colorMap[params.data?.id] || '#999',
+          borderWidth: 0
+        },
+        lineStyle: {
+          width: 1.5,
+          curveness: 0.5,
+          color: isDark ? '#475569' : '#cbd5e1'
+        },
+        expandAndCollapse: true,
+        roam: true
+      }
+    });
+
+    chart.setOption(getOption());
+    bindNodeSelection(chart);
+
+    bindResize(() => chart, container);
+
+    window.addEventListener('style-filter-changed', ((event: CustomEvent) => {
+      const updatedChildren = buildStyleFilteredTree(cleanData.children || [], event.detail.styleId, 0.15);
+      chart.setOption({
+        series: {
+          data: [{
+            ...cleanData,
+            children: updatedChildren
+          }]
+        }
+      });
+    }) as EventListener);
+
+    window.addEventListener('theme-changed', (event: any) => {
+      const newTheme = event.detail.theme;
+      chart.dispose();
+      chart = initEcharts(container, newTheme === 'dark' ? 'dark' : undefined);
+      const nextOption = getOption();
+      nextOption.series.label.color = newTheme === 'dark' ? '#cbd5e1' : '#334155';
+      nextOption.series.leaves.label.color = newTheme === 'dark' ? '#94a3b8' : '#64748b';
+      nextOption.series.lineStyle.color = newTheme === 'dark' ? '#475569' : '#cbd5e1';
+      chart.setOption(nextOption);
+      bindNodeSelection(chart);
+    });
+
+    window.addEventListener('chart-type-changed', () => {
+      setTimeout(() => chart.resize(), 50);
+    });
+  }
+</script>

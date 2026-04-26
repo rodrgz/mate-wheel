@@ -1,0 +1,61 @@
+---
+interface Props {
+  title: string;
+  p1: string;
+  p2: string;
+  wheelHtml: string;
+  guideHtml: string;
+  p3: string;
+}
+
+const { title, p1, p2, wheelHtml, guideHtml, p3 } = Astro.props;
+---
+
+<section id="sobre" class="about-section">
+  <h3>{title}</h3>
+  <p>{p1}</p>
+  <p class="about-intro">{p2}</p>
+  <ul class="about-list">
+    <li set:html={wheelHtml} />
+    <li set:html={guideHtml} />
+  </ul>
+  <p set:html={p3} />
+</section>
+
+<style>
+  .about-section {
+    margin: 2rem 0;
+    padding: 2rem;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--primary);
+    border-radius: 12px;
+    color: var(--text);
+  }
+
+  .about-section h3 {
+    margin: 0 0 1rem;
+    color: var(--primary);
+    font-size: 1.25rem;
+  }
+
+  .about-section p {
+    margin: 0;
+    line-height: 1.6;
+    font-size: 1.05rem;
+  }
+
+  .about-intro {
+    margin-top: 1rem;
+  }
+
+  .about-list {
+    margin: 0.5rem 0 1rem 1.5rem;
+    line-height: 1.6;
+  }
+
+  .about-section a {
+    color: #059669;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+</style>

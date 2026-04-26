@@ -1,0 +1,180 @@
+---
+interface Props {
+  index: any; 
+  translations: any;
+}
+const { index, translations } = Astro.props;
+---
+<div class="panel-wrapper">
+  <div id="descriptor-panel" class="panel empty" 
+    data-index={JSON.stringify(index)} 
+    data-translations={JSON.stringify(translations)}
+    aria-live="polite"
+    aria-atomic="true"
+  >
+    <div class="panel-empty-state">
+      <p>{translations.empty}</p>
+    </div>
+    
+    <div class="panel-content hidden">
+      <div class="panel-header">
+        <h2 id="panel-title">{translations.select}</h2>
+        <span id="panel-polarity" class="badge"></span>
+      </div>
+      <div class="panel-body">
+        <div id="panel-meta" class="meta-box"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .panel-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hidden { display: none !important; }
+  .panel {
+    padding: 1.5rem;
+    background: var(--panel-bg);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--panel-shadow);
+    border-radius: 12px;
+    border: 1px solid var(--panel-border);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .panel {
+      transition: none;
+    }
+  }
+  .panel.empty {
+    background: var(--bg);
+    border: 1px dashed var(--panel-border);
+    box-shadow: none;
+    text-align: center;
+    color: var(--text-muted);
+  }
+  .panel-empty-state {
+    padding: 1rem 0;
+  }
+  .panel-empty-state p {
+    margin: 0;
+    font-size: 1rem;
+  }
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--header-border);
+  }
+  .panel-header h2 { 
+    margin: 0; 
+    font-size: 1.25rem; 
+    color: var(--heading);
+  }
+  .badge {
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .badge.positive { background: #dcfce7; color: #166534; }
+  .badge.defect { background: #fee2e2; color: #991b1b; }
+  .badge.contextual { background: #fef9c3; color: #854d0e; }
+  
+  .meta-box {
+    background: var(--meta-bg);
+    padding: 0.65rem 0.85rem;
+    border-radius: 6px;
+    color: var(--text);
+  }
+  .meta-box p {
+    margin: 0;
+  }
+  .meta-box p + p {
+    margin-top: 0.85rem;
+  }
+  .meta-box .meta-styles {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .meta-box .meta-notes,
+  .meta-box .meta-aliases {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+</style>
+
+<script>
+  const panel = document.getElementById('descriptor-panel');
+  if (panel) {
+    const indexStr = panel.dataset.index;
+    const transStr = panel.dataset.translations;
+    if (indexStr && transStr) {
+      const index = JSON.parse(indexStr);
+      const translations = JSON.parse(transStr);
+      
+      const emptyState = panel.querySelector('.panel-empty-state');
+      const contentState = panel.querySelector('.panel-content');
+      const titleEl = document.getElementById('panel-title');
+      const polarityEl = document.getElementById('panel-polarity');
+      const metaEl = document.getElementById('panel-meta');
+      
+      window.addEventListener('wheel-node-selected', ((e: CustomEvent) => {
+        const id = e.detail.id;
+        const item = index[id];
+        
+        if (item) {
+          panel.classList.remove('empty');
+          emptyState?.classList.add('hidden');
+          contentState?.classList.remove('hidden');
+          
+          if(titleEl) titleEl.textContent = item.label;
+          
+          if(polarityEl) {
+            polarityEl.className = 'badge ' + item.polarity;
+            const polMap = translations.polarities;
+            polarityEl.textContent = polMap[item.polarity as keyof typeof polMap] || item.polarity;
+          }
+          
+          if(metaEl) {
+            const sections = [];
+
+            if (item.styles && item.styles.length > 0) {
+              sections.push(
+                `<p class="meta-styles"><strong>${translations.typicalCode}</strong> ${item.styles.join(', ')}</p>`
+              );
+            }
+
+            const noteText = item.tooltip || item.notes || '';
+            if (noteText) {
+              sections.push(`<p class="meta-notes">${noteText}</p>`);
+            }
+
+            if (item.aliases && item.aliases.length > 0) {
+              sections.push(
+                `<p class="meta-aliases"><strong>${translations.alsoKnown}</strong> ${item.aliases.join(', ')}</p>`
+              );
+            }
+
+            metaEl.innerHTML = sections.join('');
+            metaEl.style.display = sections.length > 0 ? 'block' : 'none';
+          }
+        }
+      }) as EventListener);
+
+      window.addEventListener('wheel-node-cleared', () => {
+        panel.classList.add('empty');
+        emptyState?.classList.remove('hidden');
+        contentState?.classList.add('hidden');
+      });
+    }
+  }
+</script>

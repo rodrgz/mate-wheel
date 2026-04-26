@@ -1,0 +1,263 @@
+:root {
+  --primary: #10b981;
+  --primary-hover: #059669;
+  
+  --bg: #f8fafc;
+  --text: #334155;
+  --text-muted: #64748b;
+  --heading: #0f172a;
+  
+  --header-bg: #ffffff;
+  --header-border: #e2e8f0;
+  
+  --panel-bg: rgba(255, 255, 255, 0.95);
+  --panel-border: #e2e8f0;
+  --panel-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  
+  --meta-bg: #f1f5f9;
+  
+  --page-gutter: 0.75rem;
+}
+
+:root.dark {
+  --bg: #0f172a;
+  --text: #cbd5e1;
+  --text-muted: #94a3b8;
+  --heading: #f8fafc;
+  
+  --header-bg: #1e293b;
+  --header-border: #334155;
+  
+  --panel-bg: rgba(30, 41, 59, 0.95);
+  --panel-border: #334155;
+  --panel-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.3), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+  
+  --meta-bg: #1e293b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.app-header {
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+  padding: 0.9rem 0;
+  margin-bottom: 0.5rem;
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.header-inner h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--heading);
+  line-height: 1.1;
+}
+
+.header-subtitle {
+  margin: 0.15rem 0 0 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.style-select {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--header-border);
+  background: var(--header-bg);
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.style-select:hover {
+  border-color: #94a3b8;
+}
+
+nav a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+nav a:hover {
+  background: var(--meta-bg);
+}
+
+.main-layout {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: 0.75rem;
+  padding: 0.25rem 0 0.5rem;
+}
+
+.wheel-section {
+  width: 100%;
+  display: block;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Painel lateral no desktop */
+@media (min-width: 901px) {
+  .main-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .wheel-section {
+    flex: 1;
+  }
+  .panel-section {
+    position: sticky;
+    top: 2rem;
+    width: 350px;
+    z-index: 50;
+    margin-left: 1.5rem;
+  }
+}
+
+/* Empilhado no celular para não cobrir a roda */
+@media (max-width: 900px) {
+  .panel-section {
+    width: 100%;
+    margin-top: 0.75rem;
+  }
+}
+
+.app-footer {
+  margin-top: 0;
+  padding: 0.5rem 0 0.75rem;
+  text-align: center;
+  color: var(--text-muted);
+  border-top: 1px solid var(--header-border);
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: #10b981;
+  color: white;
+  padding: 1rem;
+  z-index: 9999;
+  transition: top 0.2s;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.skip-link:focus-visible {
+  top: 0;
+}
+
+.reference-section {
+  margin-top: 4rem;
+  padding-top: 4rem;
+  border-top: 1px solid var(--header-border);
+  scroll-margin-top: 2rem;
+}
+
+.reference-content h1,
+.reference-content h2,
+.reference-content h3 {
+  color: var(--heading);
+  margin-top: 2rem;
+}
+
+.reference-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.reference-content th,
+.reference-content td {
+  padding: 0.75rem;
+  border: 1px solid var(--header-border);
+  text-align: left;
+}
+
+.reference-content th {
+  background: var(--meta-bg);
+}
+
+.reference-content a {
+  color: var(--primary);
+}
+
+.reference-content ul,
+.reference-content ol {
+  padding-left: 1.5rem;
+}
+
+.reference-content p {
+  margin: 0.75rem 0;
+}
+
+.reference-content blockquote {
+  margin: 1rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--primary);
+  color: var(--text-muted);
+}
+
+.reference-content code {
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  background: var(--meta-bg);
+}
+
+.reference-content pre {
+  overflow-x: auto;
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--meta-bg);
+}
+
+a,
+button {
+  touch-action: manipulation;
+}

@@ -1,0 +1,196 @@
+---
+interface Props {
+  data: any;
+}
+const { data } = Astro.props;
+---
+<div id="sunburst-chart" class="chart-container" style="min-height: 750px; width: 100%; position: relative;">
+  <div class="chart-watermark">
+    <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>
+  </div>
+</div>
+<script is:inline type="application/json" id="sunburst-data" set:html={JSON.stringify(data)} />
+
+<style>
+  .chart-container {
+    width: 100%;
+    flex: 1;
+    min-height: 850px;
+  }
+  @media (max-width: 900px) {
+    .chart-container {
+      height: 100%;
+      min-height: 700px;
+    }
+  }
+
+  .chart-watermark {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+    pointer-events: auto;
+    background: var(--panel-bg);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-family: sans-serif;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    user-select: none;
+    border: 1px solid var(--panel-border);
+    transition: opacity 0.3s;
+  }
+  .chart-watermark:hover {
+    opacity: 1;
+    background: var(--meta-bg);
+  }
+  .chart-watermark a {
+    color: inherit;
+    text-decoration: none;
+  }
+</style>
+
+<script>
+  import { initEcharts } from '../lib/charts/echartsRuntime';
+  import {
+    bindNodeSelection,
+    bindResize,
+    buildPalette,
+    buildStyleFilteredTree,
+    getInitialTheme,
+    stripItemStyles
+  } from '../lib/charts/mateWheelChart';
+
+  const container = document.getElementById('sunburst-chart');
+  const dataElement = document.getElementById('sunburst-data');
+
+  if (container && dataElement) {
+    const chartData = JSON.parse(dataElement.textContent || '{}');
+    const isDark = getInitialTheme() === 'dark';
+    const palette = buildPalette(chartData.children || []);
+    const cleanData = stripItemStyles(chartData.children || []);
+    let chart = initEcharts(container, isDark ? 'dark' : undefined);
+    let zoomLevel = 100;
+
+    const getOption = () => ({
+      backgroundColor: 'transparent',
+      color: palette,
+      aria: {
+        show: true,
+        enabled: true,
+        decal: {
+          show: false
+        }
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: '{b}'
+      },
+      series: {
+        type: 'sunburst',
+        data: cleanData,
+        sort: null,
+        nodeClick: 'rootToNode',
+        emphasis: {
+          focus: 'ancestor'
+        },
+        radius: ['0%', '100%'],
+        levels: [
+          {},
+          {
+            r0: '10%',
+            r: '40%',
+            label: {
+              rotate: 'radial',
+              align: 'right',
+              width: 90,
+              overflow: 'truncate',
+              ellipsis: '…',
+              fontSize: 11,
+              fontWeight: 'bold',
+              padding: [0, 6]
+            }
+          },
+          {
+            r0: '40%',
+            r: '71%',
+            label: {
+              width: 110,
+              overflow: 'truncate',
+              ellipsis: '…',
+              fontSize: 10,
+              padding: [0, 4]
+            }
+          },
+          {
+            r0: '71%',
+            r: '100%',
+            label: {
+              width: 95,
+              overflow: 'truncate',
+              ellipsis: '…',
+              fontSize: 10,
+              padding: [0, 2]
+            }
+          }
+        ],
+        itemStyle: {
+          borderRadius: 7,
+          borderWidth: 2
+        },
+        label: {
+          show: true,
+          minAngle: 3,
+          fontSize: 10,
+          rotate: 'radial',
+          hideOverlap: true
+        }
+      }
+    });
+
+    const bindZoom = () => {
+      chart.getZr().on('mousewheel', (event) => {
+        event.stop();
+        const delta = event.wheelDelta > 0 ? 1.1 : 0.9;
+        zoomLevel = Math.min(Math.max(zoomLevel * delta, 50), 500);
+        chart.setOption({
+          series: {
+            radius: ['0%', `${zoomLevel}%`]
+          }
+        });
+      });
+    };
+
+    chart.setOption(getOption());
+    bindNodeSelection(chart);
+    bindZoom();
+
+    window.addEventListener('style-filter-changed', ((event: CustomEvent) => {
+      const nextChildren = buildStyleFilteredTree(cleanData, event.detail.styleId, 0.2);
+      chart.setOption({
+        series: {
+          data: nextChildren
+        }
+      });
+    }) as EventListener);
+
+    bindResize(() => chart, container);
+
+    window.addEventListener('theme-changed', (event: any) => {
+      const newTheme = event.detail.theme;
+      chart.dispose();
+      chart = initEcharts(container, newTheme === 'dark' ? 'dark' : undefined);
+      chart.setOption({
+        ...getOption(),
+        series: {
+          ...getOption().series,
+          data: cleanData,
+          radius: ['0%', `${zoomLevel}%`]
+        }
+      });
+      bindNodeSelection(chart);
+      bindZoom();
+    });
+  }
+</script>
