@@ -1,0 +1,89 @@
+---
+import type { SunburstNode } from '../lib/content/normalizeMateWheel';
+import { chartIds } from '../lib/ui/chartContract';
+
+interface Props {
+  root: SunburstNode;
+  title: string;
+  intro: string;
+  descriptorLabel: string;
+  guideCta: string;
+  guideHref?: string;
+}
+
+interface FallbackSection {
+  id: string;
+  label: string;
+  items: string[];
+}
+
+const FALLBACK_ITEM_LIMIT = 6;
+
+const collectPreviewItems = (node: SunburstNode): string[] => {
+  const queue = [...(node.children ?? [])];
+  const labels: string[] = [];
+
+  while (queue.length > 0 && labels.length < FALLBACK_ITEM_LIMIT) {
+    const current = queue.shift();
+
+    if (!current) {
+      continue;
+    }
+
+    labels.push(current.name);
+
+    if (current.children?.length) {
+      queue.push(...current.children);
+    }
+  }
+
+  return labels;
+};
+
+const {
+  root,
+  title,
+  intro,
+  descriptorLabel,
+  guideCta,
+  guideHref = '#referencia'
+} = Astro.props;
+
+const sections: FallbackSection[] = (root.children ?? []).map((family) => ({
+  id: family.id,
+  label: family.name,
+  items: collectPreviewItems(family)
+}));
+---
+
+<section id={chartIds.chartFallback} class="chart-shell chart-fallback" aria-labelledby={chartIds.chartFallbackTitle}>
+  <div class="chart-watermark">
+    <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>
+  </div>
+
+  <div class="chart-fallback-body">
+    <div class="chart-fallback-copy">
+      <h2 id={chartIds.chartFallbackTitle}>{title}</h2>
+      <p>{intro}</p>
+      <p class="chart-fallback-cta">
+        <a href={guideHref}>{guideCta}</a>
+      </p>
+    </div>
+
+    <div class="chart-fallback-grid">
+      {sections.map((section) => (
+        <article class="chart-fallback-card" aria-labelledby={`fallback-family-${section.id}`}>
+          <h3 id={`fallback-family-${section.id}`}>{section.label}</h3>
+          <p class="chart-fallback-label">{descriptorLabel}</p>
+          {section.items.length > 0 && (
+            <ul class="chart-fallback-list">
+              {section.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          )}
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,4 +1,6 @@
 ---
+import { chartIds } from '../lib/ui/chartContract';
+
 interface Props {
   toggleChartLabel: string;
   resetChartRootLabel: string;
@@ -10,12 +12,12 @@ const { toggleChartLabel, resetChartRootLabel, treeZoomHint } = Astro.props;
 
 <div class="chart-controls">
   <div class="chart-toggle-row">
-    <button id="chart-toggle" class="chart-toggle" type="button" aria-label={toggleChartLabel} title={toggleChartLabel}>
-      <div id="icon-to-tree">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"/><path d="m16 6-4 4-4-4"/><rect width="8" height="6" x="2" y="16" rx="1"/><rect width="8" height="6" x="14" y="16" rx="1"/></svg>
+    <button id={chartIds.chartToggle} class="chart-toggle" type="button" aria-label={toggleChartLabel} aria-pressed="false" title={toggleChartLabel}>
+      <div id={chartIds.iconToTree}>
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"/><path d="m16 6-4 4-4-4"/><rect width="8" height="6" x="2" y="16" rx="1"/><rect width="8" height="6" x="14" y="16" rx="1"/></svg>
       </div>
-      <div id="icon-to-wheel" style="display: none;">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/><path d="m4.93 4.93 14.14 14.14"/><path d="m4.93 19.07 14.14-14.14"/></svg>
+      <div id={chartIds.iconToWheel} hidden>
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/><path d="m4.93 4.93 14.14 14.14"/><path d="m4.93 19.07 14.14-14.14"/></svg>
       </div>
     </button>
     <div class="toggle-hint">
@@ -24,19 +26,19 @@ const { toggleChartLabel, resetChartRootLabel, treeZoomHint } = Astro.props;
   </div>
   <div class="chart-button-stack">
     <button
-      id="chart-reset-root"
+      id={chartIds.chartResetRoot}
       class="chart-toggle chart-reset-root"
       type="button"
       aria-label={resetChartRootLabel}
       title={resetChartRootLabel}
       hidden
     >
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h10a4 4 0 1 1 0 8H9"/><path d="m3 10 4-4"/><path d="m3 10 4 4"/></svg>
+      <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h10a4 4 0 1 1 0 8H9"/><path d="m3 10 4-4"/><path d="m3 10 4 4"/></svg>
     </button>
   </div>
 </div>
-<div id="tree-zoom-indicator" class="zoom-indicator">
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+<div id={chartIds.treeZoomIndicator} class="zoom-indicator">
+  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
   <span>{treeZoomHint}</span>
 </div>
 
@@ -74,7 +76,7 @@ const { toggleChartLabel, resetChartRootLabel, treeZoomHint } = Astro.props;
     background: var(--header-bg);
     color: var(--text);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
   }
 
   .chart-toggle.active {
@@ -118,7 +120,7 @@ const { toggleChartLabel, resetChartRootLabel, treeZoomHint } = Astro.props;
     pointer-events: none;
     opacity: 0;
     transform: translateX(-10px);
-    transition: all 0.3s;
+    transition: opacity 0.3s, transform 0.3s;
     white-space: nowrap;
     margin-top: 0;
   }
@@ -160,20 +162,21 @@ const { toggleChartLabel, resetChartRootLabel, treeZoomHint } = Astro.props;
     }
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .chart-toggle,
+    .toggle-hint,
+    .zoom-indicator {
+      transition: none;
+    }
+
+    .toggle-hint {
+      transform: none;
+    }
+  }
+
   :root.dark .wheel-section .chart-toggle,
   :root.dark .wheel-section .toggle-hint,
   :root.dark .zoom-indicator {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   }
 </style>
-
-<script>
-  const chartControls = document.querySelector('.chart-controls');
-
-  if (chartControls instanceof HTMLElement) {
-    chartControls.classList.add('hint-peek');
-    window.setTimeout(() => {
-      chartControls.classList.remove('hint-peek');
-    }, 2600);
-  }
-</script>

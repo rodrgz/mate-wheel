@@ -1,58 +1,27 @@
 ---
+import { chartIds } from '../lib/ui/chartContract';
+
 interface Props {
   data: any;
 }
 const { data } = Astro.props;
 ---
-<div id="sunburst-chart" class="chart-container" style="min-height: 750px; width: 100%; position: relative;">
+<div id={chartIds.chartSunburst} class="chart-container chart-shell">
   <div class="chart-watermark">
     <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>
   </div>
 </div>
-<script is:inline type="application/json" id="sunburst-data" set:html={JSON.stringify(data)} />
-
-<style>
-  .chart-container {
-    width: 100%;
-    flex: 1;
-    min-height: 850px;
-  }
-  @media (max-width: 900px) {
-    .chart-container {
-      height: 100%;
-      min-height: 700px;
-    }
-  }
-
-  .chart-watermark {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    z-index: 10;
-    pointer-events: auto;
-    background: var(--panel-bg);
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 10px;
-    font-family: sans-serif;
-    color: var(--text-muted);
-    letter-spacing: 0.05em;
-    user-select: none;
-    border: 1px solid var(--panel-border);
-    transition: opacity 0.3s;
-  }
-  .chart-watermark:hover {
-    opacity: 1;
-    background: var(--meta-bg);
-  }
-  .chart-watermark a {
-    color: inherit;
-    text-decoration: none;
-  }
-</style>
+<template id={chartIds.chartSunburstData}>{JSON.stringify(data)}</template>
 
 <script>
   import { initEcharts } from '../lib/charts/echartsRuntime';
+  import {
+    chartEvents,
+    chartIds,
+    type ChartTypeChangedDetail,
+    type StyleFilterChangedDetail,
+    type ThemeChangedDetail
+  } from '../lib/ui/chartContract';
   import {
     bindNodeSelection,
     bindResize,
@@ -63,11 +32,14 @@ const { data } = Astro.props;
     stripItemStyles
   } from '../lib/charts/mateWheelChart';
 
-  const container = document.getElementById('sunburst-chart');
-  const dataElement = document.getElementById('sunburst-data');
+  const container = document.getElementById(chartIds.chartSunburst);
+  const dataElement = document.getElementById(chartIds.chartSunburstData);
 
   if (container && dataElement) {
-    const chartData = JSON.parse(dataElement.textContent || '{}');
+    const rawData = dataElement instanceof HTMLTemplateElement
+      ? dataElement.content.textContent
+      : dataElement.textContent;
+    const chartData = JSON.parse(rawData || '{}');
     const palette = buildPalette(chartData.children || []);
     const cleanData = stripItemStyles(chartData.children || []);
     let activeStyleId: string | undefined;
@@ -94,6 +66,8 @@ const { data } = Astro.props;
       },
       tooltip: {
         trigger: 'item',
+        renderMode: 'richText',
+        confine: true,
         formatter: '{b}'
       },
       series: {
@@ -209,7 +183,7 @@ const { data } = Astro.props;
     bindRootTracking();
     emitRootState(true);
 
-    window.addEventListener('style-filter-changed', ((event: CustomEvent) => {
+    window.addEventListener(chartEvents.styleFilterChanged, ((event: CustomEvent<StyleFilterChangedDetail>) => {
       activeStyleId = event.detail.styleId;
       chart.setOption({
         series: {
@@ -218,7 +192,7 @@ const { data } = Astro.props;
       });
     }) as EventListener);
 
-    window.addEventListener('chart-reset-to-root-requested', ((event: CustomEvent<{ type: string }>) => {
+    window.addEventListener(chartEvents.chartResetToRootRequested, ((event: CustomEvent<ChartTypeChangedDetail>) => {
       if (event.detail.type === 'sunburst') {
         renderChart(getInitialTheme());
       }
@@ -226,8 +200,8 @@ const { data } = Astro.props;
 
     bindResize(() => chart, container);
 
-    window.addEventListener('theme-changed', (event: any) => {
+    window.addEventListener(chartEvents.themeChanged, ((event: CustomEvent<ThemeChangedDetail>) => {
       renderChart(event.detail.theme);
-    });
+    }) as EventListener);
   }
 </script>

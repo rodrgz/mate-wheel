@@ -1,13 +1,24 @@
 ---
+import { chartIds } from '../lib/ui/chartContract';
 import type { Locale } from '../lib/i18n/siteCopy';
 
 interface Props {
   title: string;
   subtitle: string;
   locale: Locale;
+  languageSwitcherLabel: string;
+  themeToggleLabel: string;
+  githubRepoLabel: string;
 }
 
-const { title, subtitle, locale } = Astro.props;
+const {
+  title,
+  subtitle,
+  locale,
+  languageSwitcherLabel,
+  themeToggleLabel,
+  githubRepoLabel,
+} = Astro.props;
 ---
 
 <header class="app-header">
@@ -17,17 +28,17 @@ const { title, subtitle, locale } = Astro.props;
       <p class="header-subtitle">{subtitle}</p>
     </div>
     <div class="header-actions">
-      <div class="lang-switcher" aria-label="Language switcher">
-        <a href="/mate-wheel/" class={locale === 'pt' ? 'active' : ''}>PT</a>
-        <a href="/mate-wheel/en/" class={locale === 'en' ? 'active' : ''}>EN</a>
-        <a href="/mate-wheel/es/" class={locale === 'es' ? 'active' : ''}>ES</a>
-      </div>
-      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">
-        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      <nav class="lang-switcher" aria-label={languageSwitcherLabel}>
+        <a href="/mate-wheel/" class={locale === 'pt' ? 'active' : ''} aria-current={locale === 'pt' ? 'page' : undefined}>PT</a>
+        <a href="/mate-wheel/en/" class={locale === 'en' ? 'active' : ''} aria-current={locale === 'en' ? 'page' : undefined}>EN</a>
+        <a href="/mate-wheel/es/" class={locale === 'es' ? 'active' : ''} aria-current={locale === 'es' ? 'page' : undefined}>ES</a>
+      </nav>
+      <button id={chartIds.themeToggle} class="theme-toggle" type="button" aria-label={themeToggleLabel} aria-pressed="false">
+        <svg class="sun-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <svg class="moon-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
       </button>
-      <a href="https://github.com/rodrgz/mate-wheel" class="github-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+      <a href="https://github.com/rodrgz/mate-wheel" class="github-link" target="_blank" rel="noopener noreferrer" aria-label={githubRepoLabel}>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
       </a>
     </div>
   </div>
@@ -66,7 +77,7 @@ const { title, subtitle, locale } = Astro.props;
     border-radius: 4px;
     text-decoration: none;
     color: #64748b;
-    transition: all 0.2s;
+    transition: background-color 0.2s, color 0.2s;
   }
 
   .lang-switcher a:hover {
@@ -81,7 +92,7 @@ const { title, subtitle, locale } = Astro.props;
 
   .theme-toggle,
   .github-link {
-    transition: all 0.2s;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
     text-decoration: none;
   }
 
@@ -121,6 +132,14 @@ const { title, subtitle, locale } = Astro.props;
   .github-link svg {
     width: 20px;
     height: 20px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lang-switcher a,
+    .theme-toggle,
+    .github-link {
+      transition: none;
+    }
   }
 
   .sun-icon {

@@ -1,6 +1,10 @@
 import type { EChartsType } from 'echarts/core';
+import {
+  chartEvents,
+  type ChartMode
+} from '../ui/chartContract';
 
-export type RootResettableChart = 'sunburst' | 'treemap';
+export type RootResettableChart = ChartMode;
 
 export interface ChartNode {
   id: string;
@@ -44,7 +48,7 @@ export function bindNodeSelection(chart: EChartsType, clearDelay = 100): void {
     }
 
     clearTimeout(clearTimer);
-    window.dispatchEvent(new CustomEvent('wheel-node-selected', {
+    window.dispatchEvent(new CustomEvent(chartEvents.wheelNodeSelected, {
       detail: { id: params.data.id }
     }));
   };
@@ -53,7 +57,7 @@ export function bindNodeSelection(chart: EChartsType, clearDelay = 100): void {
   chart.on('mouseover', emitSelection as any);
   chart.on('mouseout', () => {
     clearTimer = window.setTimeout(() => {
-      window.dispatchEvent(new CustomEvent('wheel-node-cleared'));
+      window.dispatchEvent(new CustomEvent(chartEvents.wheelNodeCleared));
     }, clearDelay);
   });
 }
@@ -67,7 +71,7 @@ export function bindResize(getChart: () => EChartsType, container: HTMLElement):
 }
 
 export function emitChartRootState(type: RootResettableChart, atRoot: boolean): void {
-  window.dispatchEvent(new CustomEvent('chart-root-state-changed', {
+  window.dispatchEvent(new CustomEvent(chartEvents.chartRootStateChanged, {
     detail: { type, atRoot }
   }));
 }

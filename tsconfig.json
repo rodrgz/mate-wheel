@@ -3,10 +3,6 @@
   "compilerOptions": {
     "jsx": "preserve",
     "jsxImportSource": "astro",
-    "strictNullChecks": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    "strictNullChecks": true
   }
 }

@@ -3,12 +3,27 @@ interface Props {
   title: string;
   p1: string;
   p2: string;
-  wheelHtml: string;
-  guideHtml: string;
-  p3: string;
+  wheelLabel: string;
+  wheelText: string;
+  guideLabel: string;
+  guideText: string;
+  closingBeforeLink: string;
+  issueLinkLabel: string;
+  closingAfterLink: string;
 }
 
-const { title, p1, p2, wheelHtml, guideHtml, p3 } = Astro.props;
+const {
+  title,
+  p1,
+  p2,
+  wheelLabel,
+  wheelText,
+  guideLabel,
+  guideText,
+  closingBeforeLink,
+  issueLinkLabel,
+  closingAfterLink,
+} = Astro.props;
 ---
 
 <section id="sobre" class="about-section">
@@ -16,10 +31,18 @@ const { title, p1, p2, wheelHtml, guideHtml, p3 } = Astro.props;
   <p>{p1}</p>
   <p class="about-intro">{p2}</p>
   <ul class="about-list">
-    <li set:html={wheelHtml} />
-    <li set:html={guideHtml} />
+    <li>
+      <strong>{wheelLabel}</strong> {wheelText}
+    </li>
+    <li>
+      <strong>{guideLabel}</strong> {guideText}
+    </li>
   </ul>
-  <p set:html={p3} />
+  <p>
+    {closingBeforeLink}{' '}
+    <a href="https://github.com/rodrgz/mate-wheel/issues" target="_blank" rel="noopener noreferrer">{issueLinkLabel}</a>{' '}
+    {closingAfterLink}
+  </p>
 </section>
 
 <style>

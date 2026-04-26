@@ -1,4 +1,6 @@
 ---
+import { chartIds } from '../lib/ui/chartContract';
+
 interface Props {
   index: any; 
   translations: any;
@@ -6,7 +8,7 @@ interface Props {
 const { index, translations } = Astro.props;
 ---
 <div class="panel-wrapper">
-  <div id="descriptor-panel" class="panel empty" 
+  <div id={chartIds.descriptorPanel} class="panel empty" 
     data-index={JSON.stringify(index)} 
     data-translations={JSON.stringify(translations)}
     aria-live="polite"
@@ -18,11 +20,11 @@ const { index, translations } = Astro.props;
     
     <div class="panel-content hidden">
       <div class="panel-header">
-        <h2 id="panel-title">{translations.select}</h2>
-        <span id="panel-polarity" class="badge"></span>
+        <h2 id={chartIds.panelTitle}>{translations.select}</h2>
+        <span id={chartIds.panelPolarity} class="badge"></span>
       </div>
       <div class="panel-body">
-        <div id="panel-meta" class="meta-box"></div>
+        <div id={chartIds.panelMeta} class="meta-box" hidden></div>
       </div>
     </div>
   </div>
@@ -111,70 +113,3 @@ const { index, translations } = Astro.props;
     line-height: 1.5;
   }
 </style>
-
-<script>
-  const panel = document.getElementById('descriptor-panel');
-  if (panel) {
-    const indexStr = panel.dataset.index;
-    const transStr = panel.dataset.translations;
-    if (indexStr && transStr) {
-      const index = JSON.parse(indexStr);
-      const translations = JSON.parse(transStr);
-      
-      const emptyState = panel.querySelector('.panel-empty-state');
-      const contentState = panel.querySelector('.panel-content');
-      const titleEl = document.getElementById('panel-title');
-      const polarityEl = document.getElementById('panel-polarity');
-      const metaEl = document.getElementById('panel-meta');
-      
-      window.addEventListener('wheel-node-selected', ((e: CustomEvent) => {
-        const id = e.detail.id;
-        const item = index[id];
-        
-        if (item) {
-          panel.classList.remove('empty');
-          emptyState?.classList.add('hidden');
-          contentState?.classList.remove('hidden');
-          
-          if(titleEl) titleEl.textContent = item.label;
-          
-          if(polarityEl) {
-            polarityEl.className = 'badge ' + item.polarity;
-            const polMap = translations.polarities;
-            polarityEl.textContent = polMap[item.polarity as keyof typeof polMap] || item.polarity;
-          }
-          
-          if(metaEl) {
-            const sections = [];
-
-            if (item.styles && item.styles.length > 0) {
-              sections.push(
-                `<p class="meta-styles"><strong>${translations.typicalCode}</strong> ${item.styles.join(', ')}</p>`
-              );
-            }
-
-            const noteText = item.tooltip || item.notes || '';
-            if (noteText) {
-              sections.push(`<p class="meta-notes">${noteText}</p>`);
-            }
-
-            if (item.aliases && item.aliases.length > 0) {
-              sections.push(
-                `<p class="meta-aliases"><strong>${translations.alsoKnown}</strong> ${item.aliases.join(', ')}</p>`
-              );
-            }
-
-            metaEl.innerHTML = sections.join('');
-            metaEl.style.display = sections.length > 0 ? 'block' : 'none';
-          }
-        }
-      }) as EventListener);
-
-      window.addEventListener('wheel-node-cleared', () => {
-        panel.classList.add('empty');
-        emptyState?.classList.remove('hidden');
-        contentState?.classList.add('hidden');
-      });
-    }
-  }
-</script>
