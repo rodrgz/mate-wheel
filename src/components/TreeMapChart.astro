@@ -13,14 +13,17 @@ const { data } = Astro.props;
 
 <style>
   .chart-container {
+    --tree-chart-height-scale: 1.25;
+    --tree-chart-desktop-min-height: 850px;
+    --tree-chart-mobile-min-height: 700px;
     width: 100%;
     flex: 1;
-    min-height: 850px;
+    min-height: calc(var(--tree-chart-desktop-min-height) * var(--tree-chart-height-scale));
   }
   @media (max-width: 900px) {
     .chart-container {
       height: 100%;
-      min-height: 700px;
+      min-height: calc(var(--tree-chart-mobile-min-height) * var(--tree-chart-height-scale));
     }
   }
 
@@ -57,6 +60,7 @@ const { data } = Astro.props;
     bindNodeSelection,
     bindResize,
     buildStyleFilteredTree,
+    emitChartRootState,
     getInitialTheme,
     stripItemStyles
   } from '../lib/charts/mateWheelChart';
@@ -66,7 +70,7 @@ const { data } = Astro.props;
 
   if (container && dataElement) {
     const chartData = JSON.parse(dataElement.textContent || '{}');
-    const isDark = getInitialTheme() === 'dark';
+    const isMobileViewport = () => window.matchMedia('(max-width: 900px)').matches;
     const colorMap: Record<string, string> = {};
 
     const buildColorMap = (node: any, inheritedColor?: string) => {
@@ -86,9 +90,37 @@ const { data } = Astro.props;
       children: stripItemStyles(chartData.children || [])
     };
 
-    let chart = initEcharts(container, isDark ? 'dark' : undefined);
+    let activeStyleId: string | undefined;
+    const collapsedNodeIds = new Set<string>();
+    let chart = initEcharts(container, getInitialTheme() === 'dark' ? 'dark' : undefined);
 
-    const getOption = () => ({
+    const applyCollapsedState = (nodes: any[]): any[] =>
+      nodes.map((node) => {
+        const nextNode = {
+          ...node
+        };
+
+        if (node.children) {
+          nextNode.children = applyCollapsedState(node.children);
+          nextNode.collapsed = collapsedNodeIds.has(node.id);
+        }
+
+        return nextNode;
+      });
+
+    const getDisplayedTreeData = () => {
+      const styledChildren = buildStyleFilteredTree(cleanData.children || [], activeStyleId, 0.15);
+      return {
+        ...cleanData,
+        children: applyCollapsedState(styledChildren)
+      };
+    };
+
+    const emitRootState = () => {
+      emitChartRootState('treemap', collapsedNodeIds.size === 0);
+    };
+
+    const getOption = (theme: 'dark' | 'light') => ({
       backgroundColor: 'transparent',
       tooltip: {
         trigger: 'item',
@@ -96,7 +128,7 @@ const { data } = Astro.props;
       },
       series: {
         type: 'tree',
-        data: [cleanData],
+        data: [getDisplayedTreeData()],
         layout: 'orthogonal',
         orient: 'LR',
         symbol: 'circle',
@@ -115,7 +147,7 @@ const { data } = Astro.props;
           verticalAlign: 'middle',
           align: 'right',
           fontSize: 10,
-          color: isDark ? '#cbd5e1' : '#334155'
+          color: theme === 'dark' ? '#cbd5e1' : '#334155'
         },
         leaves: {
           label: {
@@ -123,7 +155,7 @@ const { data } = Astro.props;
             verticalAlign: 'middle',
             align: 'left',
             fontSize: 10,
-            color: isDark ? '#94a3b8' : '#64748b'
+            color: theme === 'dark' ? '#94a3b8' : '#64748b'
           }
         },
         itemStyle: {
@@ -133,40 +165,63 @@ const { data } = Astro.props;
         lineStyle: {
           width: 1.5,
           curveness: 0.5,
-          color: isDark ? '#475569' : '#cbd5e1'
+          color: theme === 'dark' ? '#475569' : '#cbd5e1'
         },
         expandAndCollapse: true,
-        roam: true
+        roam: !isMobileViewport()
       }
     });
 
-    chart.setOption(getOption());
+    const bindRootTracking = () => {
+      chart.on('click', (params: any) => {
+        if (params?.seriesType !== 'tree' || !params.data?.id || !params.data.children?.length) {
+          return;
+        }
+
+        if (collapsedNodeIds.has(params.data.id)) {
+          collapsedNodeIds.delete(params.data.id);
+        } else {
+          collapsedNodeIds.add(params.data.id);
+        }
+
+        emitRootState();
+      });
+    };
+
+    const renderChart = (theme: 'dark' | 'light') => {
+      chart.dispose();
+      chart = initEcharts(container, theme === 'dark' ? 'dark' : undefined);
+      chart.setOption(getOption(theme));
+      bindNodeSelection(chart);
+      bindRootTracking();
+      emitRootState();
+    };
+
+    chart.setOption(getOption(getInitialTheme()));
     bindNodeSelection(chart);
+    bindRootTracking();
+    emitRootState();
 
     bindResize(() => chart, container);
 
     window.addEventListener('style-filter-changed', ((event: CustomEvent) => {
-      const updatedChildren = buildStyleFilteredTree(cleanData.children || [], event.detail.styleId, 0.15);
+      activeStyleId = event.detail.styleId;
       chart.setOption({
         series: {
-          data: [{
-            ...cleanData,
-            children: updatedChildren
-          }]
+          data: [getDisplayedTreeData()]
         }
       });
     }) as EventListener);
 
+    window.addEventListener('chart-reset-to-root-requested', ((event: CustomEvent<{ type: string }>) => {
+      if (event.detail.type === 'treemap') {
+        collapsedNodeIds.clear();
+        renderChart(getInitialTheme());
+      }
+    }) as EventListener);
+
     window.addEventListener('theme-changed', (event: any) => {
-      const newTheme = event.detail.theme;
-      chart.dispose();
-      chart = initEcharts(container, newTheme === 'dark' ? 'dark' : undefined);
-      const nextOption = getOption();
-      nextOption.series.label.color = newTheme === 'dark' ? '#cbd5e1' : '#334155';
-      nextOption.series.leaves.label.color = newTheme === 'dark' ? '#94a3b8' : '#64748b';
-      nextOption.series.lineStyle.color = newTheme === 'dark' ? '#475569' : '#cbd5e1';
-      chart.setOption(nextOption);
-      bindNodeSelection(chart);
+      renderChart(event.detail.theme);
     });
 
     window.addEventListener('chart-type-changed', () => {

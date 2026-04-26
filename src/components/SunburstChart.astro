@@ -58,6 +58,7 @@ const { data } = Astro.props;
     bindResize,
     buildPalette,
     buildStyleFilteredTree,
+    emitChartRootState,
     getInitialTheme,
     stripItemStyles
   } from '../lib/charts/mateWheelChart';
@@ -67,11 +68,19 @@ const { data } = Astro.props;
 
   if (container && dataElement) {
     const chartData = JSON.parse(dataElement.textContent || '{}');
-    const isDark = getInitialTheme() === 'dark';
     const palette = buildPalette(chartData.children || []);
     const cleanData = stripItemStyles(chartData.children || []);
-    let chart = initEcharts(container, isDark ? 'dark' : undefined);
+    let activeStyleId: string | undefined;
+    let chart = initEcharts(container, getInitialTheme() === 'dark' ? 'dark' : undefined);
     let zoomLevel = 100;
+
+    const getDisplayedData = () => {
+      if (!activeStyleId) {
+        return cleanData;
+      }
+
+      return buildStyleFilteredTree(cleanData, activeStyleId, 0.2);
+    };
 
     const getOption = () => ({
       backgroundColor: 'transparent',
@@ -89,7 +98,7 @@ const { data } = Astro.props;
       },
       series: {
         type: 'sunburst',
-        data: cleanData,
+        data: getDisplayedData(),
         sort: null,
         nodeClick: 'rootToNode',
         emphasis: {
@@ -149,6 +158,16 @@ const { data } = Astro.props;
       }
     });
 
+    const emitRootState = (atRoot: boolean) => {
+      emitChartRootState('sunburst', atRoot);
+    };
+
+    const bindRootTracking = () => {
+      chart.on('sunburstRootToNode', (params: any) => {
+        emitRootState(!params?.targetNode?.parentNode);
+      });
+    };
+
     const bindZoom = () => {
       chart.getZr().on('mousewheel', (event) => {
         event.stop();
@@ -162,35 +181,53 @@ const { data } = Astro.props;
       });
     };
 
-    chart.setOption(getOption());
-    bindNodeSelection(chart);
-    bindZoom();
-
-    window.addEventListener('style-filter-changed', ((event: CustomEvent) => {
-      const nextChildren = buildStyleFilteredTree(cleanData, event.detail.styleId, 0.2);
-      chart.setOption({
-        series: {
-          data: nextChildren
-        }
-      });
-    }) as EventListener);
-
-    bindResize(() => chart, container);
-
-    window.addEventListener('theme-changed', (event: any) => {
-      const newTheme = event.detail.theme;
+    const renderChart = (theme: 'dark' | 'light') => {
       chart.dispose();
-      chart = initEcharts(container, newTheme === 'dark' ? 'dark' : undefined);
+      chart = initEcharts(container, theme === 'dark' ? 'dark' : undefined);
       chart.setOption({
         ...getOption(),
         series: {
           ...getOption().series,
-          data: cleanData,
           radius: ['0%', `${zoomLevel}%`]
         }
       });
       bindNodeSelection(chart);
       bindZoom();
+      bindRootTracking();
+      emitRootState(true);
+    };
+
+    chart.setOption({
+      ...getOption(),
+      series: {
+        ...getOption().series,
+        radius: ['0%', `${zoomLevel}%`]
+      }
+    });
+    bindNodeSelection(chart);
+    bindZoom();
+    bindRootTracking();
+    emitRootState(true);
+
+    window.addEventListener('style-filter-changed', ((event: CustomEvent) => {
+      activeStyleId = event.detail.styleId;
+      chart.setOption({
+        series: {
+          data: getDisplayedData()
+        }
+      });
+    }) as EventListener);
+
+    window.addEventListener('chart-reset-to-root-requested', ((event: CustomEvent<{ type: string }>) => {
+      if (event.detail.type === 'sunburst') {
+        renderChart(getInitialTheme());
+      }
+    }) as EventListener);
+
+    bindResize(() => chart, container);
+
+    window.addEventListener('theme-changed', (event: any) => {
+      renderChart(event.detail.theme);
     });
   }
 </script>

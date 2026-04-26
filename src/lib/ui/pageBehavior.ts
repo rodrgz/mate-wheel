@@ -6,6 +6,7 @@ interface ThemeToggleOptions {
 
 interface ChartToggleOptions {
   buttonId?: string;
+  resetButtonId?: string;
   sunburstWrapperId?: string;
   treemapWrapperId?: string;
   iconToTreeId?: string;
@@ -35,6 +36,7 @@ export function setupThemeToggle(options: ThemeToggleOptions = {}): void {
 export function setupChartToggle(options: ChartToggleOptions = {}): void {
   const {
     buttonId = 'chart-toggle',
+    resetButtonId = 'chart-reset-root',
     sunburstWrapperId = 'chart-sunburst-wrapper',
     treemapWrapperId = 'chart-treemap-wrapper',
     iconToTreeId = 'icon-to-tree',
@@ -44,6 +46,7 @@ export function setupChartToggle(options: ChartToggleOptions = {}): void {
   } = options;
 
   const chartToggle = document.getElementById(buttonId);
+  const rootResetButton = document.getElementById(resetButtonId);
   const sunburstWrapper = document.getElementById(sunburstWrapperId);
   const treemapWrapper = document.getElementById(treemapWrapperId);
   const iconToTree = document.getElementById(iconToTreeId);
@@ -55,6 +58,16 @@ export function setupChartToggle(options: ChartToggleOptions = {}): void {
   }
 
   let currentType: ChartMode = localStorage.getItem(storageKey) === 'treemap' ? 'treemap' : 'sunburst';
+  const atRootByType: Record<ChartMode, boolean> = {
+    sunburst: true,
+    treemap: true
+  };
+
+  const updateRootResetVisibility = () => {
+    if (rootResetButton instanceof HTMLButtonElement) {
+      rootResetButton.hidden = atRootByType[currentType];
+    }
+  };
 
   const updateVisibility = (type: ChartMode) => {
     const isTree = type === 'treemap';
@@ -66,6 +79,8 @@ export function setupChartToggle(options: ChartToggleOptions = {}): void {
     if (treeZoomIndicator) {
       treeZoomIndicator.classList.toggle('visible', isTree);
     }
+
+    updateRootResetVisibility();
 
     window.dispatchEvent(new CustomEvent('chart-type-changed', {
       detail: { type }
@@ -79,6 +94,19 @@ export function setupChartToggle(options: ChartToggleOptions = {}): void {
     localStorage.setItem(storageKey, currentType);
     updateVisibility(currentType);
   });
+
+  if (rootResetButton instanceof HTMLButtonElement) {
+    rootResetButton.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('chart-reset-to-root-requested', {
+        detail: { type: currentType }
+      }));
+    });
+  }
+
+  window.addEventListener('chart-root-state-changed', ((event: CustomEvent<{ type: ChartMode; atRoot: boolean }>) => {
+    atRootByType[event.detail.type] = event.detail.atRoot;
+    updateRootResetVisibility();
+  }) as EventListener);
 }
 
 export function setupInternalLinkScroll(selector = 'a[href^="#"]'): void {
@@ -93,5 +121,18 @@ export function setupInternalLinkScroll(selector = 'a[href^="#"]'): void {
       const targetElement = document.getElementById(targetId);
       targetElement?.scrollIntoView({ behavior: 'smooth' });
     });
+  });
+}
+
+export function setupScrollableReferenceTables(selector = '.reference-content table'): void {
+  document.querySelectorAll(selector).forEach((table) => {
+    if (!(table instanceof HTMLTableElement) || table.parentElement?.classList.contains('reference-table-scroll')) {
+      return;
+    }
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'reference-table-scroll';
+    table.parentNode?.insertBefore(wrapper, table);
+    wrapper.appendChild(table);
   });
 }

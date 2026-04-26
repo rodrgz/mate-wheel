@@ -1,5 +1,7 @@
 import type { EChartsType } from 'echarts/core';
 
+export type RootResettableChart = 'sunburst' | 'treemap';
+
 export interface ChartNode {
   id: string;
   name?: string;
@@ -62,6 +64,12 @@ export function bindResize(getChart: () => EChartsType, container: HTMLElement):
   });
   resizeObserver.observe(container);
   return resizeObserver;
+}
+
+export function emitChartRootState(type: RootResettableChart, atRoot: boolean): void {
+  window.dispatchEvent(new CustomEvent('chart-root-state-changed', {
+    detail: { type, atRoot }
+  }));
 }
 
 export function buildStyleFilteredTree(

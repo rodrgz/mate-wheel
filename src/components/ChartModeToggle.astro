@@ -1,23 +1,38 @@
 ---
 interface Props {
   toggleChartLabel: string;
+  resetChartRootLabel: string;
   treeZoomHint: string;
 }
 
-const { toggleChartLabel, treeZoomHint } = Astro.props;
+const { toggleChartLabel, resetChartRootLabel, treeZoomHint } = Astro.props;
 ---
 
-<div class="chart-controls" style="display: flex; gap: 8px; align-items: center;">
-  <button id="chart-toggle" class="chart-toggle" type="button" aria-label={toggleChartLabel} title={toggleChartLabel}>
-    <div id="icon-to-tree">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"/><path d="m16 6-4 4-4-4"/><rect width="8" height="6" x="2" y="16" rx="1"/><rect width="8" height="6" x="14" y="16" rx="1"/></svg>
+<div class="chart-controls">
+  <div class="chart-toggle-row">
+    <button id="chart-toggle" class="chart-toggle" type="button" aria-label={toggleChartLabel} title={toggleChartLabel}>
+      <div id="icon-to-tree">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"/><path d="m16 6-4 4-4-4"/><rect width="8" height="6" x="2" y="16" rx="1"/><rect width="8" height="6" x="14" y="16" rx="1"/></svg>
+      </div>
+      <div id="icon-to-wheel" style="display: none;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/><path d="m4.93 4.93 14.14 14.14"/><path d="m4.93 19.07 14.14-14.14"/></svg>
+      </div>
+    </button>
+    <div class="toggle-hint">
+      <span>{toggleChartLabel}</span>
     </div>
-    <div id="icon-to-wheel" style="display: none;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/><path d="m4.93 4.93 14.14 14.14"/><path d="m4.93 19.07 14.14-14.14"/></svg>
-    </div>
-  </button>
-  <div class="toggle-hint">
-    <span>{toggleChartLabel}</span>
+  </div>
+  <div class="chart-button-stack">
+    <button
+      id="chart-reset-root"
+      class="chart-toggle chart-reset-root"
+      type="button"
+      aria-label={resetChartRootLabel}
+      title={resetChartRootLabel}
+      hidden
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h10a4 4 0 1 1 0 8H9"/><path d="m3 10 4-4"/><path d="m3 10 4 4"/></svg>
+    </button>
   </div>
 </div>
 <div id="tree-zoom-indicator" class="zoom-indicator">
@@ -26,6 +41,28 @@ const { toggleChartLabel, treeZoomHint } = Astro.props;
 </div>
 
 <style>
+  .chart-controls {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .chart-toggle-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .chart-button-stack {
+    display: flex;
+    align-items: flex-start;
+  }
+
   .chart-toggle {
     display: flex;
     align-items: center;
@@ -46,9 +83,19 @@ const { toggleChartLabel, treeZoomHint } = Astro.props;
     border-color: var(--primary);
   }
 
+  .chart-toggle:hover {
+    background: var(--meta-bg);
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
   .chart-toggle svg {
     width: 20px;
     height: 20px;
+  }
+
+  .chart-reset-root[hidden] {
+    display: none !important;
   }
 
   .wheel-section .chart-toggle,
@@ -73,9 +120,12 @@ const { toggleChartLabel, treeZoomHint } = Astro.props;
     transform: translateX(-10px);
     transition: all 0.3s;
     white-space: nowrap;
+    margin-top: 0;
   }
 
-  .chart-controls:hover .toggle-hint {
+  .chart-controls.hint-peek .toggle-hint,
+  .chart-toggle-row:hover .toggle-hint,
+  .chart-toggle:focus-visible + .toggle-hint {
     opacity: 1;
     transform: translateX(0);
   }
@@ -104,9 +154,26 @@ const { toggleChartLabel, treeZoomHint } = Astro.props;
     opacity: 1;
   }
 
+  @media (max-width: 900px) {
+    .zoom-indicator {
+      display: none;
+    }
+  }
+
   :root.dark .wheel-section .chart-toggle,
   :root.dark .wheel-section .toggle-hint,
   :root.dark .zoom-indicator {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   }
 </style>
+
+<script>
+  const chartControls = document.querySelector('.chart-controls');
+
+  if (chartControls instanceof HTMLElement) {
+    chartControls.classList.add('hint-peek');
+    window.setTimeout(() => {
+      chartControls.classList.remove('hint-peek');
+    }, 2600);
+  }
+</script>

@@ -8,6 +8,7 @@ export const siteCopy = {
     filterTitle: 'Filtro: Todos os Estilos',
     footer: 'Mate em Roda V1 - Ferramenta Exploratória de Análise Sensorial',
     toggleChart: 'Clique para alternar entre Roda e Árvore',
+    resetChartRoot: 'Voltar à raiz',
     treeZoomHint: 'Use o scroll do mouse para Zoom In/Out',
     aboutTitle: 'Sobre o Projeto',
     aboutP1:
@@ -27,6 +28,7 @@ export const siteCopy = {
     filterTitle: 'Filter: All Styles',
     footer: 'Mate em Roda V1 - Exploratory Sensory Analysis Tool',
     toggleChart: 'Click to toggle between Wheel and Tree',
+    resetChartRoot: 'Back to root',
     treeZoomHint: 'Use mouse scroll for Zoom In/Out',
     aboutTitle: 'About the Project',
     aboutP1:
@@ -46,6 +48,7 @@ export const siteCopy = {
     filterTitle: 'Filtro: Todos los Estilos',
     footer: 'Mate em Roda V1 - Herramienta Exploratoria de Análisis Sensorial',
     toggleChart: 'Clique para alternar entre Rueda y Árbol',
+    resetChartRoot: 'Volver a la raíz',
     treeZoomHint: 'Use el scroll del ratón para Zoom In/Out',
     aboutTitle: 'Sobre el Proyecto',
     aboutP1:

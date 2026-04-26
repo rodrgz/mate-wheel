@@ -101,6 +101,19 @@ const panelTranslations = panelCopy[locale];
       }
 
       /* Markdown content basic styling */
+      .reference-content {
+        min-width: 0;
+      }
+
+      .reference-content :global(.reference-table-scroll) {
+        margin: 1.5rem 0;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+
       .reference-content :global(h1), 
       .reference-content :global(h2), 
       .reference-content :global(h3) {
@@ -111,15 +124,42 @@ const panelTranslations = panelCopy[locale];
         width: 100%;
         border-collapse: collapse;
         margin: 1.5rem 0;
+        table-layout: auto;
       }
+
+      .reference-content :global(.reference-table-scroll table) {
+        margin: 0;
+      }
+
       .reference-content :global(th), 
       .reference-content :global(td) {
         padding: 0.75rem;
         border: 1px solid var(--header-border);
         text-align: left;
+        white-space: normal;
+        word-break: normal;
+        overflow-wrap: normal;
+        -webkit-hyphens: auto;
+        hyphens: auto;
       }
       .reference-content :global(th) {
         background: var(--meta-bg);
+      }
+
+      @media (max-width: 900px) {
+        .reference-content :global(.reference-table-scroll) {
+          margin: 1.25rem 0;
+        }
+
+        .reference-content :global(.reference-table-scroll table) {
+          width: var(--reference-table-mobile-width);
+          min-width: var(--reference-table-mobile-width);
+        }
+
+        .reference-content :global(th),
+        .reference-content :global(td) {
+          padding: 0.625rem;
+        }
       }
 
       /* Accessibility & Quality Improvements */
@@ -211,40 +251,6 @@ const panelTranslations = panelCopy[locale];
         height: 20px;
       }
 
-      .chart-controls {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        z-index: 20;
-      }
-      .wheel-section .chart-toggle, .wheel-section .toggle-hint {
-        background: var(--panel-bg);
-        backdrop-filter: blur(4px);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        border: 1px solid var(--panel-border);
-        border-radius: 8px;
-        padding: 6px;
-        color: var(--text-muted);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      
-      .toggle-hint {
-        font-size: 0.75rem;
-        font-weight: 500;
-        pointer-events: none;
-        opacity: 0;
-        transform: translateX(-10px);
-        transition: all 0.3s;
-        white-space: nowrap;
-      }
-
-      .chart-controls:hover .toggle-hint {
-        opacity: 1;
-        transform: translateX(0);
-      }
-
       .zoom-indicator {
         position: absolute;
         bottom: 15px;
@@ -269,8 +275,6 @@ const panelTranslations = panelCopy[locale];
         opacity: 1;
       }
 
-      :root.dark .wheel-section .chart-toggle, 
-      :root.dark .wheel-section .toggle-hint,
       :root.dark .zoom-indicator {
         box-shadow: 0 4px 6px rgba(0,0,0,0.3);
       }
@@ -305,13 +309,18 @@ const panelTranslations = panelCopy[locale];
         <section class="wheel-section">
           <ChartModeToggle
             toggleChartLabel={translations.toggleChart}
+            resetChartRootLabel={translations.resetChartRoot}
             treeZoomHint={translations.treeZoomHint}
           />
-          <div id="chart-sunburst-wrapper">
-            <SunburstChart data={normalized.sunburst} />
-          </div>
-          <div id="chart-treemap-wrapper" style="display: none;">
-            <TreeMapChart data={normalized.sunburst} />
+          <div class="wheel-scroll-shell">
+            <div class="wheel-scroll-frame">
+              <div id="chart-sunburst-wrapper">
+                <SunburstChart data={normalized.sunburst} />
+              </div>
+              <div id="chart-treemap-wrapper" style="display: none;">
+                <TreeMapChart data={normalized.sunburst} />
+              </div>
+            </div>
           </div>
         </section>
         <section class="panel-section">
@@ -342,10 +351,11 @@ const panelTranslations = panelCopy[locale];
     <ProjectFooter footer={translations.footer} />
 
     <script>
-      import { setupChartToggle, setupInternalLinkScroll, setupThemeToggle } from '../lib/ui/pageBehavior';
+      import { setupChartToggle, setupInternalLinkScroll, setupScrollableReferenceTables, setupThemeToggle } from '../lib/ui/pageBehavior';
 
       setupThemeToggle();
       setupChartToggle();
+      setupScrollableReferenceTables();
       setupInternalLinkScroll();
     </script>
   </body>

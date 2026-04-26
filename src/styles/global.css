@@ -16,7 +16,9 @@
   
   --meta-bg: #f1f5f9;
   
-  --page-gutter: 0.75rem;
+  --page-gutter: clamp(0.875rem, 4vw, 1.5rem);
+  --reference-table-mobile-width: 130%;
+  --wheel-mobile-width: 175%;
 }
 
 :root.dark {
@@ -55,7 +57,7 @@ body {
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 var(--page-gutter);
 }
 
 .app-header {
@@ -142,6 +144,26 @@ nav a:hover {
   position: relative;
 }
 
+.wheel-scroll-shell {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: auto;
+}
+
+.wheel-scroll-frame {
+  width: 100%;
+  min-width: 100%;
+}
+
+.wheel-scroll-shell .chart-container,
+.wheel-scroll-shell canvas {
+  touch-action: auto;
+}
+
 /* Painel lateral no desktop */
 @media (min-width: 901px) {
   .main-layout {
@@ -165,6 +187,30 @@ nav a:hover {
   .panel-section {
     width: 100%;
     margin-top: 0.75rem;
+  }
+
+  .reference-section {
+    margin-top: 3rem;
+    padding-top: 3rem;
+  }
+
+  .reference-table-scroll {
+    margin: 1.25rem 0;
+  }
+
+  .reference-table-scroll table {
+    width: var(--reference-table-mobile-width);
+    min-width: var(--reference-table-mobile-width);
+  }
+
+  .wheel-scroll-frame {
+    width: var(--wheel-mobile-width);
+    min-width: var(--wheel-mobile-width);
+  }
+
+  .reference-content th,
+  .reference-content td {
+    padding: 0.625rem;
   }
 }
 
@@ -200,6 +246,19 @@ nav a:hover {
   scroll-margin-top: 2rem;
 }
 
+.reference-content {
+  min-width: 0;
+}
+
+.reference-table-scroll {
+  margin: 1.5rem 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
 .reference-content h1,
 .reference-content h2,
 .reference-content h3 {
@@ -211,6 +270,11 @@ nav a:hover {
   width: 100%;
   border-collapse: collapse;
   margin: 1.5rem 0;
+  table-layout: auto;
+}
+
+.reference-table-scroll table {
+  margin: 0;
 }
 
 .reference-content th,
@@ -218,6 +282,11 @@ nav a:hover {
   padding: 0.75rem;
   border: 1px solid var(--header-border);
   text-align: left;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: normal;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
 .reference-content th {
