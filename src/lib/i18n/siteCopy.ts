@@ -1,6 +1,8 @@
 export type Locale = 'pt' | 'en' | 'es';
 
 export const siteMeta = {
+  siteUrl: 'https://rodrgz.github.io',
+  basePath: '/mate-wheel',
   contactEmail: 'mate@rodgz.com',
   contributors: ['Erik Rodriguez'],
 } as const;
@@ -9,6 +11,8 @@ export const siteCopy = {
   pt: {
     title: 'Mate em Roda',
     subtitle: 'um mapa sensorial colaborativo da erva-mate',
+    description: 'Roda sensorial interativa da erva-mate com léxico de descritores, guia de análise sensorial e referencial de degustação. Ferramenta aberta e colaborativa para chimarrão, tereré e mate.',
+    ogDescription: 'Roda sensorial interativa da erva-mate: descritores, análise sensorial e degustação de chimarrão, tereré e mate.',
     filterTitle: 'Filtro: Todos os Estilos',
     footer: 'Mate em Roda Beta - Ferramenta Exploratória de Análise Sensorial',
     codeLicensedUnder: 'Código licenciado sob',
@@ -26,6 +30,8 @@ export const siteCopy = {
   en: {
     title: 'Mate em Roda',
     subtitle: 'an open sensory map for yerba mate',
+    description: 'Interactive yerba mate sensory wheel with a descriptor lexicon, sensory analysis guide, and tasting reference. An open, collaborative tool for chimarrão, tereré, and mate.',
+    ogDescription: 'Interactive yerba mate sensory wheel: descriptors, sensory analysis and tasting guide for chimarrão, tereré and mate.',
     filterTitle: 'Filter: All Styles',
     footer: 'Mate em Roda Beta - Exploratory Sensory Analysis Tool',
     codeLicensedUnder: 'Code licensed under',
@@ -43,6 +49,8 @@ export const siteCopy = {
   es: {
     title: 'Mate em Roda',
     subtitle: 'un mapa sensorial abierto de la yerba mate',
+    description: 'Rueda sensorial interactiva de la yerba mate con léxico de descriptores, guía de análisis sensorial y referencial de degustación. Herramienta abierta y colaborativa para chimarrão, tereré y mate.',
+    ogDescription: 'Rueda sensorial interactiva de la yerba mate: descriptores, análisis sensorial y degustación de chimarrão, tereré y mate.',
     filterTitle: 'Filtro: Todos los Estilos',
     footer: 'Mate em Roda Beta - Herramienta Exploratoria de Análisis Sensorial',
     codeLicensedUnder: 'Código licenciado bajo',

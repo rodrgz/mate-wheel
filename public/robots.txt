@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rodrgz.github.io/mate-wheel/sitemap-index.xml

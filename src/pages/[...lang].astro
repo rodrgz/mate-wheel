@@ -30,6 +30,46 @@ const panelTranslations = panelCopy[locale];
 const contentSecurityPolicy = import.meta.env.DEV
   ? undefined
   : "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self';";
+
+// --- SEO helpers ---
+const base = siteMeta.basePath;
+const siteOrigin = siteMeta.siteUrl;
+
+const localePaths: Record<string, string> = {
+  pt: `${base}/`,
+  en: `${base}/en/`,
+  es: `${base}/es/`,
+};
+
+const canonicalPath = localePaths[locale];
+const canonicalUrl = `${siteOrigin}${canonicalPath}`;
+
+const ogLocaleMap: Record<string, string> = {
+  pt: 'pt_BR',
+  en: 'en_US',
+  es: 'es_ES',
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: translations.title,
+  description: translations.description,
+  url: canonicalUrl,
+  inLanguage: locale,
+  applicationCategory: 'EducationalApplication',
+  operatingSystem: 'Any',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: 'Erik Rodriguez',
+  },
+  license: 'https://creativecommons.org/licenses/by-nc/4.0/',
+};
 ---
 
 <!DOCTYPE html>
@@ -43,9 +83,37 @@ const contentSecurityPolicy = import.meta.env.DEV
       />
     )}
     <meta name="viewport" content="width=device-width" />
-    <title>{translations.title}</title>
-    <link rel="icon" type="image/svg+xml" href="/mate-wheel/favicon.svg" />
-    <script is:inline src="/mate-wheel/theme-init.js"></script>
+    <title>{translations.title} — {translations.subtitle}</title>
+    <meta name="description" content={translations.description} />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+
+    {/* Canonical & hreflang */}
+    <link rel="canonical" href={canonicalUrl} />
+    {Object.entries(localePaths).map(([loc, path]) => (
+      <link rel="alternate" hreflang={loc === 'pt' ? 'pt-BR' : loc} href={`${siteOrigin}${path}`} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={`${siteOrigin}${localePaths.pt}`} />
+
+    {/* Open Graph */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mate em Roda" />
+    <meta property="og:title" content={`${translations.title} — ${translations.subtitle}`} />
+    <meta property="og:description" content={translations.ogDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content={ogLocaleMap[locale]} />
+    {Object.entries(ogLocaleMap).filter(([l]) => l !== locale).map(([, ogLoc]) => (
+      <meta property="og:locale:alternate" content={ogLoc} />
+    ))}
+
+    {/* Twitter Card */}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={`${translations.title} — ${translations.subtitle}`} />
+    <meta name="twitter:description" content={translations.ogDescription} />
+
+    {/* Structured Data */}
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <script is:inline src={`${base}/theme-init.js`}></script>
   </head>
   <body>
     <a href="#main-content" class="skip-link">{translations.skipLinkLabel}</a>
